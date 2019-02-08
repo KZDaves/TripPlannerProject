@@ -1,0 +1,89 @@
+/* GENERAL */
+
+body {
+	background-image: url("../images/main.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	font-family: 'Georgia', Times, Times New Roman, serif;
+	text-align: center;
+	margin: 0;
+	min-height: 100%;
+}
+
+html {
+	height: 100%;
+}
+
+/* LOGIN PAGE */
+
+#outerBorder1 {
+	width: 960px;
+	position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: 0px;
+    transform: translate(-50%, -50%);
+    border: 2px solid #4A7023;
+	border-radius: 10px;
+	color: white;
+	padding: 30px 0;
+	line-height: 20px;
+	background: #00ff83;
+}
+
+#cities, #states, #endDatePicker, #startDatePicker {
+	min-width: 300px;
+	width: auto;
+	height: 30px;
+	border: none;
+	border-bottom: 2px solid gray;
+	background: none;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+.message {
+	color: gray;
+	font-size:80%;
+	display:block;
+}
+
+label {
+	display: inline-block;
+	padding-top: 5px;
+	text-align: justify;
+	margin: 0 30px;
+}
+
+.fa-angle-down {
+	border-bottom: 2px solid gray;
+	color: gray;
+	padding-bottom: 7px;
+}
+
+.fa-calendar-alt {
+	border-bottom: 2px solid gray;
+	color: gray;
+	padding-bottom: 6px;
+}
+
+#outerBorder1 div {
+	padding-bottom: 20px;
+}
+
+.btn-pri {
+	width: auto;
+    height: 50px;
+    padding: 5px 10px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: #ffffff;
+    background-color: #4B0082;
+    font-size: 20px;
+    font-family: 'Georgia', Times, Times New Roman, serif;
+    cursor: pointer;
+    margin-top: 10px;
+}
