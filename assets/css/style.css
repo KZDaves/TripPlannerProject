@@ -14,7 +14,7 @@ html {
 	height: 100%;
 }
 
-/* LOGIN PAGE */
+/* CITY AND STATE PAGE - START */
 
 #outerBorder1 {
 	width: 960px;
@@ -41,6 +41,7 @@ html {
 	background: none;
 	font-size: 20px;
 	cursor: pointer;
+	outline: none;
 }
 
 .message {
@@ -49,7 +50,7 @@ html {
 	display:block;
 }
 
-label {
+#cityLabel, #stateLabel, #endDateLabel, #startDateLabel {
 	display: inline-block;
 	padding-top: 5px;
 	text-align: justify;
@@ -87,3 +88,34 @@ label {
     cursor: pointer;
     margin-top: 10px;
 }
+
+.dispHide {
+	display: none;
+}
+
+#stateSelect, #citySelect {
+	max-height: 100px;
+	overflow: auto;
+	background-color: white;
+	color: gray;
+	position: absolute;
+	z-index: 1;
+	width: 310px;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	/*margin: 0 auto;*/
+	/*text-align: justify;*/
+}
+
+.liStateSelect:hover, .liCitySelect:hover {
+	color: white;
+	background-color: #4B0082;
+	cursor: pointer;
+}
+
+#ulStateSelect, #ulCitySelect {
+	padding: 0px 5px;
+	margin: 0;
+}
+
+/* CITY AND STATE PAGE - END */
