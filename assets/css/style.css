@@ -42,12 +42,19 @@ html {
 	font-size: 20px;
 	cursor: pointer;
 	outline: none;
+	font-family: 'Georgia', Times, Times New Roman, serif;
 }
 
 .message {
 	color: gray;
 	font-size:80%;
 	display:block;
+}
+
+.required {
+	color: red;
+	font-size:80%;
+	display: inline;
 }
 
 #cityLabel, #stateLabel, #endDateLabel, #startDateLabel {
@@ -66,7 +73,7 @@ html {
 .fa-calendar-alt {
 	border-bottom: 2px solid gray;
 	color: gray;
-	padding-bottom: 6px;
+	padding-bottom: 7px;
 }
 
 #outerBorder1 div {
@@ -118,4 +125,18 @@ html {
 	margin: 0;
 }
 
+#msg {
+	font-size: 15px;
+	padding: 15px;
+	font-family: 'Georgia', Times, Times New Roman, serif;
+}
+
+button.ui-button {
+	font-size: 10px !important;
+	font-family: 'Georgia', Times, Times New Roman, serif;
+}
+
+.ui-widget-content {
+	border-collapse:collapse;
+}
 /* CITY AND STATE PAGE - END */

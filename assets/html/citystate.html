@@ -2,27 +2,25 @@
 <html>
 <head>
 	<title>Project One: Trip Planner > City, State and Date Selection</title>
-	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-	<!--<link rel="stylesheet" href="./assets/fontawesome-free-5.7.1-web/css/all.css">
-	<link rel="stylesheet" href="./assets/fontawesome-free-5.7.1-web/css/all.min.css">	
-	<link rel="stylesheet" type="text/css" href="./assets/css/style.css">
-	<link rel="stylesheet" type="text/css" href="./assets/css/reset.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-	<script type="text/javascript" src="./assets/javascript/app.js"></script>-->
-	<link rel="stylesheet" href="../fontawesome-free-5.7.1-web/css/all.css">
-	<link rel="stylesheet" href="../fontawesome-free-5.7.1-web/css/all.min.css">	
+	<link rel="stylesheet" type="text/css" href="../css/jquery-ui.css">
+	<link rel="stylesheet" href="../lib/fontawesome-free-5.7.1-web/css/all.css">
+	<link rel="stylesheet" href="../lib/fontawesome-free-5.7.1-web/css/all.min.css">	
 	<link rel="stylesheet" type="text/css" href="../css/style.css">
-	<link rel="stylesheet" type="text/css" href="../css/reset.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	<!-- <link rel="stylesheet" type="text/css" href="../css/reset.css"> -->
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
+	<script type="text/javascript" src="../lib/jquery.js"></script>
+	<script type="text/javascript" src="../lib/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="../lib/firebase.js"></script>
 	<script type="text/javascript" src="../javascript/app.js"></script>
+
 </head>
 <body>
 	<div id="outerBorder1">
 		<div id="cityStateSelector">
 			<label id="stateLabel">
-				<span class="message">State</span><input type="text" id="states"><i class="fas fa-angle-down"></i>
+				<!--<span class="required">* </span>-->
+				<span class="message">State</span><input type="text" id="states" readonly="true"><i class="fas fa-angle-down"></i>
 				<div id="stateSelect" class="dispHide">
 					<ul id='ulStateSelect'>
 						
@@ -30,7 +28,8 @@
 				</div>
 			</label>
 			<label id="cityLabel">
-				<span class="message">City</span><input type="text" id="cities" disabled><i class="fas fa-angle-down"></i>
+				<!-- <span class="required">*</span> -->
+				<span class="message">City</span><input type="text" id="cities" readonly="true" disabled><i class="fas fa-angle-down"></i>
 				<div id="citySelect" class="dispHide">
 					<ul id='ulCitySelect'>
 						
@@ -39,13 +38,15 @@
 			</label> 
 		</div>
 		<div id="dateSelector">
-			<label id="startDateLabel"><span class="message">From</span><input type="text" id="startDatePicker" placeholder="mm/dd/yyyy"><i class="fas fa-calendar-alt"></i></label> 
-			<label id="endDateLabel"><span class="message">To</span><input type="text" id="endDatePicker" placeholder="mm/dd/yyyy"><i class="fas fa-calendar-alt"></i></label> 
+			<label id="startDateLabel"><span class="message">From</span><input type="text" id="startDatePicker" placeholder="mm/dd/yyyy" readonly="true"><i class="fas fa-calendar-alt"></i></label> 
+			<label id="endDateLabel"><span class="message">To</span><input type="text" id="endDatePicker" placeholder="mm/dd/yyyy" readonly="true"><i class="fas fa-calendar-alt"></i></label> 
 		</div>
 		<div>
 			<button class="btn-pri">Search&nbsp;&nbsp;&nbsp;<i class="fas fa-search"></i></button>
 		</div>
 	</div>
-	
+	<div id="msg">
+		
+	</div>
 </body>
 </html>

@@ -17,10 +17,12 @@
 
 $(document).ready(function() {
 
-	//START DATE PICKER
-	$("#startDatePicker, #endDatePicker").datepicker()
-
-	//END DATE PICKER
+	//START and END DATE PICKER
+	$("#startDatePicker, #endDatePicker").datepicker({
+      changeMonth: true,
+      changeYear: true,
+      minDate: 0
+    })
 
 	//AUTO-POPULATE LOCATION
 	getInfoFromAPI("0")
@@ -36,6 +38,10 @@ $(document).ready(function() {
 
 	$("#stateLabel, #cityLabel").on("mouseleave", function() {
 		$('#stateSelect, #citySelect').slideUp('fast');
+	})
+
+	$(".btn-pri").on("click",function() {
+		var isOK = validateInfo()
 	})
 
 	//DATABASE CONFIG
@@ -185,5 +191,105 @@ function appendDataString(data, flag, liString) {
 
 }
   
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : validateInfo
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : February 09, 2019 PST
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : validates info to be submitted  
+ #  PARAMETERS    : none
+ #
+ #######################################################################
+*/
+
+function validateInfo() {
+
+	//STATE
+	var st = $("#states").val()
+	var ci = $("#cities").val()
+	var sd = $("#startDatePicker").val();
+	var ed = $("#endDatePicker").val();
+
+	console.log(st+" >> "+ci+" >> "+sd+" >> "+ed)
+
+	if (st == "" & ci == "") {
+		alertMsg("prompt","Please provide all required fields.","")
+	} else if (sd !== "" && ed == "") {
+		alertMsg("prompt","Please provide an end date for your trip.","")
+	  } else if (sd == "" && ed != "") {
+			alertMsg("prompt","Please provide a start date for your trip.","")
+	    }
 
 
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : alertMsg
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : February 09, 2019 PST
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : for error prompts or confirmation  
+ #  PARAMETERS    : msg type, message, functions to do
+ #
+ #######################################################################
+*/
+
+function alertMsg(type, msg, todo) {
+
+	switch(type) {
+		case "prompt":
+			$( "#msg" ).remove();
+			$("body").append("<div id='msg' style='display:none' class='label'><center>"+msg+"</msg>");
+			$( "#msg" ).dialog({
+				height: "auto",
+				resizable: false,
+				closeOnEscape: false,
+				modal: true,
+	            open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); $(".ui-dialog :button").blur(); },
+				buttons: {
+					"OK": function() {
+						eval(todo);
+						$("#msg").dialog("destroy");
+						$(this).dialog("close");
+					},
+					"Cancel": function() {
+						$("#msg").dialog("destroy");
+						$(this).dialog("close");
+					}
+				}
+			});
+		break;
+		case "alert2":
+			$( "#msg" ).remove();
+			$("body").append("<div id='msg' style='display:none' class='label'><center>"+msg+"</msg>");
+			//$( "#msg" ).dialog("destroy");
+			$( "#msg" ).dialog({
+				height: "auto",
+				resizable: false,
+				modal: true,
+				closeOnEscape: false,
+	            open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); $(".ui-dialog :button").blur();},
+				buttons: {
+					"Yes": function() {
+						$("#msg").dialog("destroy");
+						$(this).dialog("close");
+						eval(todo);
+					},
+					"No": function() {
+						$("#msg").dialog("destroy");
+						$(this).dialog("close");
+					}
+				}
+				});
+		break;	
+	}
+
+}
