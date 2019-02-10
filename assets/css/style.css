@@ -80,7 +80,7 @@ html {
 	padding-bottom: 20px;
 }
 
-.btn-pri {
+.btn-pri, .existingPlanBtn{
 	width: auto;
     height: 50px;
     padding: 5px 10px;
@@ -140,3 +140,24 @@ button.ui-button {
 	border-collapse:collapse;
 }
 /* CITY AND STATE PAGE - END */
+
+/*Existing Plans Page*/
+
+.pageTitle {
+	margin-top: 50px;
+	position: fixed;
+	left: 40%
+}
+
+.existingPlanBtn, .landingPgBtn {
+	margin: 15px;
+	height: 50px;
+	width: auto;
+}
+
+#existingPlans {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+}
+
+/*Existing Plans Page - END*/
