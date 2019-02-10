@@ -57,6 +57,18 @@ $(document).ready(function() {
 	firebase.initializeApp(config);
 	var database = firebase.database();
 
+	//Populate existing plans to page as buttons
+	database.ref().on("value", function(snapshot){
+		$("#existingPlans").empty(); 
+		snapshot.forEach(function(childsnapshot){
+			var button = $("<button>");
+			button.attr("class", "existingPlanBtn"); 
+			button.html(`${childsnapshot.val().cityName} <br> ${childsnapshot.val().planName}`);
+			$("#existingPlans").append(button); 
+		})
+	});
+
+
 })
 
 /*
@@ -293,3 +305,21 @@ function alertMsg(type, msg, todo) {
 	}
 
 }
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : 
+ #  AUTHOR        : 
+ #  DATE          : 
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : 
+ #  PARAMETERS    : 
+ #
+ #######################################################################
+*/
+
+
+
