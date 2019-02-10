@@ -161,3 +161,157 @@ button.ui-button {
 }
 
 /*Existing Plans Page - END*/
+
+/*--------------------------------PlanDetails html CSS starts Here--------------------------------*/
+
+.existing-plan-container {
+    display: block;
+    width: 100%;
+    margin-top: 150px;
+}
+
+.ticket-master-header,
+.brewery-header,
+.weather-header {
+    display: block;
+    background: #00BCEB;
+    padding: 10px;
+    font-size: 20px;
+}
+
+.concert-data,
+.brewery-data {
+    display: block;
+    text-align: center;
+    margin: 15px;
+}
+
+.ticket-master-container,
+.brewery-container,
+.weather-container {
+    width: 24%;
+    background: #ded5d5;
+    height: 304px;
+    display: inline-block;
+}
+
+.ticket-master-btn {
+    background: #005073;
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.ticket-master-btn:hover {
+    opacity: .7;
+}
+
+.resturant-container {
+    display: inline-block;
+    width: 25%;
+    background: #ded5d5;
+    height: 304px;
+    position: relative;
+    top: 56px;
+}
+
+.resturant-header {
+    display: block;
+    background: #00BCEB;
+    padding: 10px;
+    font-size: 20px;
+}
+
+.resturant-name-container {
+    display: inline-block;
+    width: 25%;
+}
+
+.resturant-name-header {
+    display: inline-block;
+    font-size: 15px;
+    margin: 10px;
+    font-weight: bold
+}
+
+.rating-container {
+    display: inline-block;
+    width: 25%;
+    position: relative;
+    top: -104px;
+}
+
+.rating-header {
+    display: inline-block;
+    font-size: 15px;
+    margin: 10px;
+    font-weight: bold;
+}
+
+.rest-rating {
+    background-image: url(../images/star.png);
+    background-size: cover;
+    width: 22%;
+    height: 19px;
+}
+
+.food-style-container {
+    display: inline-block;
+    width: 25%;
+    position: relative;
+    top: -23px;
+}
+
+.food-style-cont {
+    position: relative;
+    top: 10px;
+}
+
+.food-style-header {
+    display: inline-block;
+    font-size: 13px;
+    /* width: 58%; */
+    /* background: red; */
+    font-weight: bold;
+}
+
+.food-master-btn {
+    background: #005073;
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: block;
+    width: 25%;
+    margin: auto;
+    position: relative;
+    top: -58px;
+/*    margin-top: 47px;*/
+}
+
+.food-master-btn:hover {
+    opacity: .7;
+}
+
+.rest-rating {
+    display: block;
+}
+
+.food-style-content {
+    display: inline-block;
+}
+
+.weather-container {
+    position: relative;
+    top: -70px;
+}
+
+.weather-data {
+    display: block;
+    text-align: center;
+    margin: 15px;
+}
+
+
+/*--------------------------------PlanDetails html CSS ends Here--------------------------------*/
