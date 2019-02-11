@@ -15,6 +15,19 @@
 
 /* GLOBAL VARIABLES */
 
+//DATABASE CONFIG
+// Initialize Firebase
+var config = {
+    apiKey: "AIzaSyARhBOFgmMf_9cj5S_Eq3zKI6D4AqCNIz4",
+    authDomain: "tripplanner-47fd1.firebaseapp.com",
+    databaseURL: "https://tripplanner-47fd1.firebaseio.com",
+    projectId: "tripplanner-47fd1",
+    storageBucket: "tripplanner-47fd1.appspot.com",
+    messagingSenderId: "556604987785"
+};
+firebase.initializeApp(config);
+var database = firebase.database();
+
 $(document).ready(function() {
 
 	//START and END DATE PICKER
@@ -40,22 +53,12 @@ $(document).ready(function() {
 		$('#stateSelect, #citySelect').slideUp('fast');
 	})
 
-	$(".btn-pri").on("click",function() {
+	$("#searchBtn").on("click",function() {
 		var isOK = validateInfo()
 	})
 
-	//DATABASE CONFIG
-	// Initialize Firebase
-	var config = {
-	    apiKey: "AIzaSyARhBOFgmMf_9cj5S_Eq3zKI6D4AqCNIz4",
-	    authDomain: "tripplanner-47fd1.firebaseapp.com",
-	    databaseURL: "https://tripplanner-47fd1.firebaseio.com",
-	    projectId: "tripplanner-47fd1",
-	    storageBucket: "tripplanner-47fd1.appspot.com",
-	    messagingSenderId: "556604987785"
-	};
-	firebase.initializeApp(config);
-	var database = firebase.database();
+	
+	fetchFromDB("",database)
 
 })
 
@@ -259,15 +262,15 @@ function alertMsg(type, msg, todo) {
 						eval(todo);
 						$("#msg").dialog("destroy");
 						$(this).dialog("close");
-					},
-					"Cancel": function() {
+					}
+					/*"Cancel": function() {
 						$("#msg").dialog("destroy");
 						$(this).dialog("close");
-					}
+					}*/
 				}
 			});
 		break;
-		case "alert2":
+		case "confirm":
 			$( "#msg" ).remove();
 			$("body").append("<div id='msg' style='display:none' class='label'><center>"+msg+"</msg>");
 			//$( "#msg" ).dialog("destroy");
@@ -291,5 +294,56 @@ function alertMsg(type, msg, todo) {
 				});
 		break;	
 	}
+
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : fetchFromDB
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : February 09, 2019 PST
+ #  MODIFIED BY   : Maricel Louise Sumulong
+ #  REVISION DATE : February 10, 2019 PST
+ #  REVISION #    : 1
+ #  DESCRIPTION   : fetches plan details from database
+ #  PARAMETERS    : node or id
+ #
+ #######################################################################
+*/
+
+function fetchFromDB(node) {
+
+	node = "plan2"
+
+	database.ref(node).once("value",function(ss) {
+		console.log(ss.val())
+		$("#planName").text(ss.val().planName)
+		$("#planDate").text(ss.val().startDate)
+		$("#planLocation").text(ss.val().cityName+", "+ss.val().state)
+		//EVENTS
+		var div = $("<div>")
+		div.attr("class","infoClass")
+		for (var j = 0; j < ss.val().ticketMaster.length; j++) {
+			div.append(" - "+ss.val().ticketMaster[j]+"<br>")
+		}
+		$("#eventInfo").append(div)
+		var div2 = $("<div>")
+		div2.attr("class","infoClass")
+		for (var j = 0; j < ss.val().breweries.length; j++) {
+			div2.append(" - "+ss.val().breweries[j]+"<br>")
+		}
+		$("#breweryInfo").append(div2)
+		var div3 = $("<div>")
+		div3.attr("class","infoClass")
+		for (var j = 0; j < ss.val().restaurants.length; j++) {
+			div3.append(" - "+ss.val().restaurants[j].restaurantName+" "+ss.val().restaurants[j].rating+" "+ss.val().restaurants[j].foodStyle+"<br>")
+		}
+		$("#restaurantInfo").append(div3)
+		var div4 = $("<div>")
+		div4.attr("class","infoClass")
+		div4.append(" - "+ss.val().weatherInfo+"<br>")
+		$("#weatherInfo").append(div4)
+	})
 
 }

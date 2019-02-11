@@ -14,6 +14,11 @@ html {
 	height: 100%;
 }
 
+@font-face {
+    font-family: 'AutumnInNovember'; /*a name to be used later*/
+    src: url('../lib/Autumn in November.ttf'); /*URL to font*/
+}
+
 /* CITY AND STATE PAGE - START */
 
 #outerBorder1 {
@@ -93,7 +98,7 @@ html {
     font-size: 20px;
     font-family: 'Georgia', Times, Times New Roman, serif;
     cursor: pointer;
-    margin-top: 10px;
+    margin: 10px auto;
 }
 
 .dispHide {
@@ -136,7 +141,95 @@ button.ui-button {
 	font-family: 'Georgia', Times, Times New Roman, serif;
 }
 
-.ui-widget-content {
-	border-collapse:collapse;
-}
 /* CITY AND STATE PAGE - END */
+
+/* EXISTING PLAN DETAILS PAGE - START */
+
+#pdHeader {
+	margin: 20px auto;
+	width: 70%;
+	background-color: white;
+	border: 2px solid #0ebfe9;
+	border-radius: 5px;
+	background-image: url("../images/morocco-blue.png");
+}
+
+#pdContainer {
+	width: 70%;
+	min-height: 300px;
+	margin: 15px auto;
+	height: auto;
+	background-color: white;
+	border-radius: 5px;
+	border: 2px solid #0ebfe9;
+}
+
+#planName {
+	font-size: 30px;
+	font-weight: bold;
+	color: #7D26CD;
+	border-bottom: 1px solid gray;
+	width: 50%;
+	height: auto;
+	padding: 5px;
+	/*letter-spacing: 15px;*/
+	margin: 10px auto;
+	font-family: "AutumnInNovember";
+}
+
+.HPTitle {
+	font-size: 15px;
+	text-align: center;
+	width: 100%;
+	padding: 0.025px 0;
+	position: relative;
+	top: 0px;
+	/*left: 6.5px;*/
+	line-height: 20px;
+	background-color: #7D26CD;
+	color: white;
+	border-bottom: 2px solid black;
+}
+
+#breweryInfo, #restaurantInfo, #eventInfo {
+	float: left;
+	border: 2px solid black;
+	min-height: 150px;
+
+}
+
+#breweryInfo {
+	width: 26%;
+	margin-left: 20px;
+}
+
+#weatherInfo {
+	float: left;
+	width: 42%;
+	margin-left: 20px;
+	border: 2px solid black;
+	min-height: 335px;
+}
+
+#eventInfo {
+	width: 26%;
+}
+
+#restaurantInfo {
+	width: 54.5%;
+	margin-top: -155px;
+}
+
+#planTodo {
+	margin: 25px auto;
+	width: 95%;
+	height: auto;
+	min-height: 200px;
+}
+
+.infoClass {
+	padding: 15px;
+	text-align: justify;
+}
+
+/* EXISTING PLAN DETAILS PAGE - END */
