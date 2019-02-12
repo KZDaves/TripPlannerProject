@@ -28,37 +28,53 @@ var config = {
 firebase.initializeApp(config);
 var database = firebase.database();
 
-$(document).ready(function() {
-
-	//START and END DATE PICKER
-	$("#startDatePicker, #endDatePicker").datepicker({
-      changeMonth: true,
-      changeYear: true,
-      minDate: 0
-    })
-
-	//AUTO-POPULATE LOCATION
-	getInfoFromAPI("0")
-	//populateLocation()
-
-	$("#states, #stateLabel i").on("click", function() {
-		$('#stateSelect').slideDown('fast');
-	})
-
-	$("#cities, #cityLabel i").on("click", function() {
-		$('#citySelect').slideDown('fast');
-	})
-
-	$("#stateLabel, #cityLabel").on("mouseleave", function() {
-		$('#stateSelect, #citySelect').slideUp('fast');
-	})
-
-	$("#searchBtn").on("click",function() {
-		var isOK = validateInfo()
-	})
+/*$(document).ready(function() {
 
 	
 	fetchFromDB("",database)
+
+	//Populate existing plans to page as buttons
+	database.ref().on("value", function(snapshot){
+		$("#existingPlans").empty(); 
+		snapshot.forEach(function(childsnapshot){
+			var button = $("<button>");
+			button.attr("class", "existingPlanBtn"); 
+			button.html(`${childsnapshot.val().cityName} <br> ${childsnapshot.val().planName}`);
+			$("#existingPlans").append(button); 
+		})
+	});
+
+
+})*/
+
+$(document).ready(function() {
+
+	$("#np").on("click", function() {
+		$("#mainMenus").hide()
+		$("#mainContainer").load("./assets/html/citystate.html",function() {
+			initializeButtonsForNewPlan()
+			$(this).show()
+			$("#menu").show()
+		})
+	})
+
+	$("#vp").on("click", function() {
+		$("#mainMenus").hide()
+		$("#mainContainer").load("./assets/html/existingPlans.html",function() {
+			//initializeButtonsForNewPlan()
+			$(this).show()
+			$("#menu").show()
+			database.ref().on("value", function(snapshot){
+				$("#existingPlans").empty(); 
+				snapshot.forEach(function(childsnapshot){
+					var button = $("<button>");
+					button.attr("class", "existingPlanBtn"); 
+					button.html(`${childsnapshot.val().cityName} <br> ${childsnapshot.val().planName}`);
+					$("#existingPlans").append(button); 
+				})
+			});
+		})
+	})
 
 })
 
@@ -69,17 +85,17 @@ $(document).ready(function() {
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : February 07, 2019 PST
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : February 09, 2019 PST
- #  REVISION #    : 1
+ #  REVISION DATE : February 12, 2019 PST
+ #  REVISION #    : 3
  #  DESCRIPTION   : populate location 
- #  PARAMETERS    : json data, flag
+ #  PARAMETERS    : flag
  #
  #######################################################################
 */
 
-function populateLocation(data, flag) {
+function populateLocation(flag) {
 
-	var liString = appendDataString(data,flag,"")
+	var liString = appendDataString(flag,"")
 
 	switch (flag) {
 		case "0": case 0:
@@ -88,14 +104,15 @@ function populateLocation(data, flag) {
 			$(".liStateSelect").on("click",function() {
 				$("#states").val($(this).text())
 				$('#stateSelect').slideUp('fast');
-				getInfoFromAPI("1")
+				populateLocation("1")
 				$("#cities").attr("disabled",false)
 				event.preventDefault();
 			})
 		break;
 		case "1": case 1:
 			$("#ulCitySelect").empty().append(liString)
-			$("#cities").val(data[0].city)
+			var selCity = ucwords(uscities[$("#states").val()][0].toLowerCase())
+			$("#cities").val(selCity)
 			$(".liCitySelect").on("click",function() {
 				$("#cities").val($(this).text())
 				$('#citySelect').slideUp('fast');
@@ -162,32 +179,41 @@ function getInfoFromAPI(flag) {
  #  FUNCTION NAME : appendDataString
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : February 09, 2019 PST
- #  MODIFIED BY   : 
- #  REVISION DATE : 
- #  REVISION #    : 
+ #  MODIFIED BY   : Maricel Louise Sumulong
+ #  REVISION DATE : February 12, 2019 PST
+ #  REVISION #    : 1
  #  DESCRIPTION   : appends data to string 
  #  PARAMETERS    : json data, flag, empty string
  #
  #######################################################################
 */
 
-function appendDataString(data, flag, liString) {
+function appendDataString(flag, liString) {
 
 	var key, cname
+	var keys = []
+
+	console.log(flag)
 
 	switch (flag) {
 		case 0: case "0":
-			key = "region"
+			for (name in uscities) {
+				keys.push(name)
+			}
 			cname = "liStateSelect"
 		break;
 		case "1": case 1:
-			key = "city"
+			key = $("#states").val()
+			for (var m = 0; m < uscities[key].length; m++) {
+				keys.push(ucwords(uscities[key][m].toLowerCase()))
+			}
 			cname = "liCitySelect"
 		break;
 	}
 
-	for (var i = 0; i < data.length; i++) {
-		liString += "<li class='"+cname+"'>"+data[i][key]+"</li>"
+	for (var i = 0; i < keys.length; i++) {
+		console.log("K: "+keys)
+		liString += "<li class='"+cname+"'>"+keys[i]+"</li>"
 	}
 
 	return liString
@@ -216,8 +242,6 @@ function validateInfo() {
 	var ci = $("#cities").val()
 	var sd = $("#startDatePicker").val();
 	var ed = $("#endDatePicker").val();
-
-	console.log(st+" >> "+ci+" >> "+sd+" >> "+ed)
 
 	if (st == "" & ci == "") {
 		alertMsg("prompt","Please provide all required fields.","")
@@ -291,7 +315,7 @@ function alertMsg(type, msg, todo) {
 						$(this).dialog("close");
 					}
 				}
-				});
+			});
 		break;	
 	}
 
@@ -300,50 +324,111 @@ function alertMsg(type, msg, todo) {
 /*
  #######################################################################
  #
- #  FUNCTION NAME : fetchFromDB
+ #  FUNCTION NAME : initializeButtonsForNewPlan
  #  AUTHOR        : Maricel Louise Sumulong
- #  DATE          : February 09, 2019 PST
- #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : February 10, 2019 PST
- #  REVISION #    : 1
- #  DESCRIPTION   : fetches plan details from database
- #  PARAMETERS    : node or id
+ #  DATE          : February 10, 2019 PST
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : initializes button when new plan button is clicked
+ #  PARAMETERS    : none
  #
  #######################################################################
 */
 
-function fetchFromDB(node) {
+function initializeButtonsForNewPlan() {
 
-	node = "plan2"
+	//START and END DATE PICKER
+	$("#startDatePicker, #endDatePicker").datepicker({
+      changeMonth: true,
+      changeYear: true,
+      minDate: 0
+    })
 
-	database.ref(node).once("value",function(ss) {
-		console.log(ss.val())
-		$("#planName").text(ss.val().planName)
-		$("#planDate").text(ss.val().startDate)
-		$("#planLocation").text(ss.val().cityName+", "+ss.val().state)
-		//EVENTS
-		var div = $("<div>")
-		div.attr("class","infoClass")
-		for (var j = 0; j < ss.val().ticketMaster.length; j++) {
-			div.append(" - "+ss.val().ticketMaster[j]+"<br>")
-		}
-		$("#eventInfo").append(div)
-		var div2 = $("<div>")
-		div2.attr("class","infoClass")
-		for (var j = 0; j < ss.val().breweries.length; j++) {
-			div2.append(" - "+ss.val().breweries[j]+"<br>")
-		}
-		$("#breweryInfo").append(div2)
-		var div3 = $("<div>")
-		div3.attr("class","infoClass")
-		for (var j = 0; j < ss.val().restaurants.length; j++) {
-			div3.append(" - "+ss.val().restaurants[j].restaurantName+" "+ss.val().restaurants[j].rating+" "+ss.val().restaurants[j].foodStyle+"<br>")
-		}
-		$("#restaurantInfo").append(div3)
-		var div4 = $("<div>")
-		div4.attr("class","infoClass")
-		div4.append(" - "+ss.val().weatherInfo+"<br>")
-		$("#weatherInfo").append(div4)
+	//AUTO-POPULATE LOCATION
+	//getInfoFromAPI("0")
+	populateLocation("0")
+
+	$("#states, #stateLabel i").on("click", function() {
+		$('#stateSelect').slideDown('fast');
+	})
+
+	$("#cities, #cityLabel i").on("click", function() {
+		$('#citySelect').slideDown('fast');
+	})
+
+	$("#stateLabel, #cityLabel").on("mouseleave", function() {
+		$('#stateSelect, #citySelect').slideUp('fast');
+	})
+
+	$("#searchBtn").on("click",function() {
+		var isOK = validateInfo()
 	})
 
 }
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : showInformation
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : February 10, 2019 PST
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : shows information of selected plan
+ #  PARAMETERS    : node name
+ #
+ #######################################################################
+*/
+
+function showInformation(node) {
+
+	$("#planContainer").dialog({
+		// height: "auto",
+		width: "1200px",
+		resizable: false,
+		modal: true,
+		closeOnEscape: false,
+        open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); $(".ui-dialog :button").blur();},
+		buttons: {
+			"Edit": function() {
+				$("#planContainer").dialog("destroy");
+				$(this).empty().dialog("close");
+				eval(todo);
+			},
+			"Close": function() {
+				$("#planContainer").dialog("destroy");
+				$(this).empty().dialog("close");
+				eval(todo);
+			}
+		}
+	});
+
+	$("#planContainer").dialog("open").load("./assets/html/existingPlanDetails.html",function() {
+	})
+
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : ucwords
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : February 12, 2019 PST
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : capitalizes the first letter of the string
+ #  PARAMETERS    : string
+ #
+ #######################################################################
+*/
+
+function ucwords (str) {
+
+    return (str + '').replace(/^([a-z])|\s+([a-z])/g, function ($1) {
+        return $1.toUpperCase();
+    });
+
+} 

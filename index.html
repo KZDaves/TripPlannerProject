@@ -1,20 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Trip Planner</title>
+	<title>Project One: Trip Planner</title>
+	<link rel="stylesheet" type="text/css" href="./assets/css/jquery-ui.css">
+	<link rel="stylesheet" href="./assets/lib/fontawesome-free-5.7.1-web/css/all.css">
+	<link rel="stylesheet" href="./assets/lib/fontawesome-free-5.7.1-web/css/all.min.css">	
 	<link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+	<script type="text/javascript" src="./assets/lib/jquery.js"></script>
+	<script type="text/javascript" src="./assets/lib/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="./assets/lib/firebase.js"></script>
+	<script type="text/javascript" src="./assets/lib/uscities.js"></script>
+	<script type="text/javascript" src="./assets/javascript/app.js"></script>
 </head>
 <body>
-	<h1>Plan your Trip</h1>
-	<div id="outerBorder1">
-		<a href="./assets/html/existingPlans.html"><button class="btn-pri">View Existing Plans</button></a>
+	<header class="pdHeader">
+		<img src="./assets/images/luggage.png" height="110" width="110">
+		<img src="./assets/images/title.png">
+		<img src="./assets/images/luggage.png" height="110" width="110">
+		<div id="menu" class="dispHide">
+			<i class="fas fa-bars"></i>
+		</div>
+	</header>
+	<div class="outerBorder1" id="mainMenus">
+		<!-- <a href="./assets/html/existingPlans.html"> -->
+			<button id="vp" class="btn-pri landingPgBtn">View Existing Plans</button>
+		<!-- </a> -->
 		<!-- NEED NAME OF M'S ACTUAL FILE FOR THIS LINK-- TO BE UPDATED LATER -->
-		<a href="./assets/html/createNewPlan.html"><button class="btn-pri">Plan a New Trip</button></a>
+		<!-- <a href="./assets/html/citystate.html"> -->
+			<button id="np" class="btn-pri landingPgBtn">Plan A New Trip</button>
+		<!-- </a> -->
 	</div>
-
-	<script type="text/javascript" src="./assets/lib/jquery.min.js"></script>
-	<script type="text/javascript" src="./assets/lib/popper.min.js"></script>
-	<script type="text/javascript" src="./assets/lib/firebase.js"></script>
-	<script type="text/javascript" src="./assets/javascript/app.js"></script>
+	<div id="mainContainer" class="dispHide"> <!-- this is where the -->
+	</div>
 </body>
 </html>
