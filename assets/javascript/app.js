@@ -33,25 +33,6 @@ var selCity = "" // selected city
 var selSD = "" //selected start date
 var selED = "" // selected end date
 
-/*$(document).ready(function() {
-
-	
-	fetchFromDB("",database)
-
-	//Populate existing plans to page as buttons
-	database.ref().on("value", function(snapshot){
-		$("#existingPlans").empty(); 
-		snapshot.forEach(function(childsnapshot){
-			var button = $("<button>");
-			button.attr("class", "existingPlanBtn"); 
-			button.html(`${childsnapshot.val().cityName} <br> ${childsnapshot.val().planName}`);
-			$("#existingPlans").append(button); 
-		})
-	});
-
-
-})*/
-
 $(document).ready(function() {
 
 	$("#np").on("click", function() {
@@ -66,28 +47,33 @@ $(document).ready(function() {
 	$("#vp").on("click", function() {
 		$("#mainMenus").hide()
 		$("#mainContainer").load("./assets/html/existingPlans.html",function() {
-			//initializeButtonsForNewPlan()
 			$(this).show()
 			$("#menu").show()
-			database.ref().on("value", function(snapshot){
-				$("#existingPlans").empty(); 
-				snapshot.forEach(function(childsnapshot){
-					var button = $("<button>");
-					button.attr("class", "existingPlanBtn"); 
-					var s = childsnapshot.key
-					button.attr("onclick","showInformation('"+s+"')")
-					button.html(`${childsnapshot.val().planName} <br><br> ${childsnapshot.val().cityName}, ${childsnapshot.val().state}`);
-					$("#existingPlans").append(button); 
-				})
-			});
+			fetchFromDBForEP();
 		})
 	})
-    $('.addAll-plan-btn').on("click", function(){
-        $("#mainMenus").hide();
-        $('.existing-plan-container').hide();
-        $('.user-plan-result-container').show();
-        
+    
+    $("#menu i").on("mouseenter",function() {
+    	$(".submenus").slideDown("fast")	
     })
+
+    $(".submenus").on("mouseleave", function() {
+		$(this).slideUp('fast');
+	})
+
+    $(".submenus span:first-child").on("click", function() {
+		$("#mainContainer").load("./assets/html/existingPlans.html",function() {
+			fetchFromDBForEP();
+			$(".submenus").slideUp("fast")
+		})
+	})
+
+	$(".submenus span:last-child").on("click", function() {
+		$("#mainContainer").empty().load("./assets/html/citystate.html",function() {
+			initializeButtonsForNewPlan()
+			$(".submenus").slideUp("fast")
+		})
+	})
 
 })
 
@@ -440,6 +426,7 @@ function initializeButtonsForNewPlan() {
 				$(".city-state").text(selCity+", "+selState)
 				if (selSD != "" && selED != "")
 					$(".cs-date").text(selSD+" - "+selED)
+
 			})
 		}
 
@@ -513,3 +500,34 @@ function ucwords (str) {
     });
 
 } 
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : fetchFromDBForEP
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : February 12, 2019 PST
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : fetches db information for Existing Plan page
+ #  PARAMETERS    : none
+ #
+ #######################################################################
+*/
+
+function fetchFromDBForEP() {
+
+	database.ref().once("value", function(snapshot){
+		$("#existingPlans").empty(); 
+		snapshot.forEach(function(childsnapshot){
+			var button = $("<button>");
+			button.attr("class", "existingPlanBtn"); 
+			var s = childsnapshot.key
+			button.attr("onclick","showInformation('"+s+"')")
+			button.html(`${childsnapshot.val().planName} <br><br> ${childsnapshot.val().cityName}, ${childsnapshot.val().state}`);
+			$("#existingPlans").append(button); 
+		})
+	});
+
+}

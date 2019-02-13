@@ -290,20 +290,33 @@ button.ui-button {
     margin-right: -200px; 
     cursor: pointer;
     height: 80px;
-    width: 80px;
+    width: 150px;
     border: 0px solid red;
     font-size: 50px;
     color: white;
 }
 
+.submenus {
+    font-size: 15px;
+    width: 100%;
+    background-color: #ded5d5;
+    line-height: 2;
+    border-radius: 2px;
+    border: 2px solid gray;
+}
+
+.submenus span:hover {
+    background-color: #0ebfe9;
+    color: black;
+    width: 100%;
+}
 /* INDEX - END */
 
 /*--------------------------------PlanDetails html CSS starts Here--------------------------------*/
 
 .existing-plan-container {
-    display: block;
+    display: block;*/
     width: 100%;
-    
 }
 
 .ticket-master-header,
@@ -454,8 +467,14 @@ button.ui-button {
     color: white;
     font-family: "AutumnInNovember";
 }
+
+.cs-date {
+    font-size: 20px;
+    color: white;
+}
+
 .addAll-plan-btn{
-     background: #005073;
+    background: #005073;
     color: white;
     padding: 10px;
     border-radius: 6px;
