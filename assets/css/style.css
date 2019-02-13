@@ -303,7 +303,7 @@ button.ui-button {
 .existing-plan-container {
     display: block;
     width: 100%;
-    margin-top: 150px;
+    
 }
 
 .ticket-master-header,
@@ -349,7 +349,7 @@ button.ui-button {
     background: #ded5d5;
     height: 304px;
     position: relative;
-    top: 56px;
+    top: 132px;
 }
 
 .resturant-header {
@@ -375,7 +375,7 @@ button.ui-button {
     display: inline-block;
     width: 25%;
     position: relative;
-    top: -104px;
+    top: -179px;
 }
 
 .rating-header {
@@ -396,7 +396,7 @@ button.ui-button {
     display: inline-block;
     width: 25%;
     position: relative;
-    top: -23px;
+    top: -101px;
 }
 
 .food-style-cont {
@@ -422,7 +422,7 @@ button.ui-button {
     width: 25%;
     margin: auto;
     position: relative;
-    top: -58px;
+    top: -127px;
     /*    margin-top: 47px;*/
 }
 
@@ -453,6 +453,18 @@ button.ui-button {
     font-size: 30px;
     color: white;
     font-family: "AutumnInNovember";
+}
+.addAll-plan-btn{
+     background: #005073;
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: block;
+    width: 25%;
+    margin: auto;
+   
+    
 }
 
 /*--------------------------------PlanDetails html CSS ends Here--------------------------------*/

@@ -82,6 +82,12 @@ $(document).ready(function() {
 			});
 		})
 	})
+    $('.addAll-plan-btn').on("click", function(){
+        $("#mainMenus").hide();
+        $('.existing-plan-container').hide();
+        $('.user-plan-result-container').show();
+        
+    })
 
 })
 
