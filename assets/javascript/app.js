@@ -28,6 +28,11 @@ var config = {
 firebase.initializeApp(config);
 var database = firebase.database();
 
+var selState = "" // selected state
+var selCity = "" // selected city
+var selSD = "" //selected start date
+var selED = "" // selected end date
+
 /*$(document).ready(function() {
 
 	
@@ -69,7 +74,9 @@ $(document).ready(function() {
 				snapshot.forEach(function(childsnapshot){
 					var button = $("<button>");
 					button.attr("class", "existingPlanBtn"); 
-					button.html(`${childsnapshot.val().cityName} <br> ${childsnapshot.val().planName}`);
+					var s = childsnapshot.key
+					button.attr("onclick","showInformation('"+s+"')")
+					button.html(`${childsnapshot.val().planName} <br><br> ${childsnapshot.val().cityName}, ${childsnapshot.val().state}`);
 					$("#existingPlans").append(button); 
 				})
 			});
@@ -111,8 +118,8 @@ function populateLocation(flag) {
 		break;
 		case "1": case 1:
 			$("#ulCitySelect").empty().append(liString)
-			var selCity = ucwords(uscities[$("#states").val()][0].toLowerCase())
-			$("#cities").val(selCity)
+			var selC = ucwords(uscities[$("#states").val()][0].toLowerCase())
+			$("#cities").val(selC)
 			$(".liCitySelect").on("click",function() {
 				$("#cities").val($(this).text())
 				$('#citySelect').slideUp('fast');
@@ -193,8 +200,6 @@ function appendDataString(flag, liString) {
 	var key, cname
 	var keys = []
 
-	console.log(flag)
-
 	switch (flag) {
 		case 0: case "0":
 			for (name in uscities) {
@@ -212,7 +217,6 @@ function appendDataString(flag, liString) {
 	}
 
 	for (var i = 0; i < keys.length; i++) {
-		console.log("K: "+keys)
 		liString += "<li class='"+cname+"'>"+keys[i]+"</li>"
 	}
 
@@ -226,9 +230,9 @@ function appendDataString(flag, liString) {
  #  FUNCTION NAME : validateInfo
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : February 09, 2019 PST
- #  MODIFIED BY   : 
- #  REVISION DATE : 
- #  REVISION #    : 
+ #  MODIFIED BY   : Maricel Louise Sumulong
+ #  REVISION DATE : February 12, 2019 PST
+ #  REVISION #    : 1
  #  DESCRIPTION   : validates info to be submitted  
  #  PARAMETERS    : none
  #
@@ -245,11 +249,23 @@ function validateInfo() {
 
 	if (st == "" & ci == "") {
 		alertMsg("prompt","Please provide all required fields.","")
+		return 0
 	} else if (sd !== "" && ed == "") {
 		alertMsg("prompt","Please provide an end date for your trip.","")
+		return 0
 	  } else if (sd == "" && ed != "") {
 			alertMsg("prompt","Please provide a start date for your trip.","")
-	    }
+			return 0
+		} else if (sd > ed) {
+			alertMsg("prompt","Start date can't be greater than end date.","")
+			return 0
+		  } else {
+		    	selCity = ci
+		    	selState = st
+		    	selSD = sd
+		    	selED = ed
+		    	return 1
+		    }
 
 
 }
@@ -324,6 +340,55 @@ function alertMsg(type, msg, todo) {
 /*
  #######################################################################
  #
+ #  FUNCTION NAME : fetchFromDB
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : February 09, 2019 PST
+ #  MODIFIED BY   : Maricel Louise Sumulong
+ #  REVISION DATE : February 10, 2019 PST
+ #  REVISION #    : 1
+ #  DESCRIPTION   : fetches plan details from database
+ #  PARAMETERS    : node or id
+ #
+ #######################################################################
+*/
+
+function fetchFromDB(node) {
+
+	database.ref(node).once("value",function(ss) {
+		console.log(ss.val())
+		$("#planName").text(ss.val().planName)
+		$("#planDate").text(ss.val().startDate)
+		$("#planLocation").text(ss.val().cityName+", "+ss.val().state)
+		//EVENTS
+		var div = $("<div>")
+		div.attr("class","infoClass")
+		for (var j = 0; j < ss.val().ticketMaster.length; j++) {
+			div.append(" - "+ss.val().ticketMaster[j]+"<br>")
+		}
+		$("#eventInfo").append(div)
+		var div2 = $("<div>")
+		div2.attr("class","infoClass")
+		for (var j = 0; j < ss.val().breweries.length; j++) {
+			div2.append(" - "+ss.val().breweries[j]+"<br>")
+		}
+		$("#breweryInfo").append(div2)
+		var div3 = $("<div>")
+		div3.attr("class","infoClass")
+		for (var j = 0; j < ss.val().restaurants.length; j++) {
+			div3.append(" - "+ss.val().restaurants[j].restaurantName+" "+ss.val().restaurants[j].rating+" "+ss.val().restaurants[j].foodStyle+"<br>")
+		}
+		$("#restaurantInfo").append(div3)
+		var div4 = $("<div>")
+		div4.attr("class","infoClass")
+		div4.append(" - "+ss.val().weatherInfo+"<br>")
+		$("#weatherInfo").append(div4)
+	})
+
+}
+
+/*
+ #######################################################################
+ #
  #  FUNCTION NAME : initializeButtonsForNewPlan
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : February 10, 2019 PST
@@ -363,6 +428,15 @@ function initializeButtonsForNewPlan() {
 
 	$("#searchBtn").on("click",function() {
 		var isOK = validateInfo()
+
+		if (isOK == 1) {
+			$("#mainContainer").load("./assets/html/userSelectPlan.html",function() {
+				$(".city-state").text(selCity+", "+selState)
+				if (selSD != "" && selED != "")
+					$(".cs-date").text(selSD+" - "+selED)
+			})
+		}
+
 	})
 
 }
@@ -406,6 +480,7 @@ function showInformation(node) {
 	});
 
 	$("#planContainer").dialog("open").load("./assets/html/existingPlanDetails.html",function() {
+		fetchFromDB(node)
 	})
 
 }
