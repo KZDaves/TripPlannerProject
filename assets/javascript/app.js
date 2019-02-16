@@ -129,8 +129,8 @@ function populateLocation(flag) {
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : February 07, 2019 PST
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : February 09, 2019 PST
- #  REVISION #    : 1
+ #  REVISION DATE : February 12, 2019 PST
+ #  REVISION #    : 2
  #  DESCRIPTION   : submits and fetches info from API
  #  PARAMETERS    : flag number
  #
@@ -150,20 +150,25 @@ function getInfoFromAPI(flag) {
 			region = $("#states").val()
 			queryURL = "https://battuta.medunes.net/api/city/us/search/?region="+region+"&key=b5a73435674d312ed09479b91666a083"
 		break
+		case "2":
+			queryURL = "https://api.openbrewerydb.org/breweries?by_city="+selCity+"&by_state="+selState+"&sort=name&per_page=50"
+			//console.log(queryURL)
+		break;
 	}
 
 	$.ajax({
       url: queryURL,
       method: "GET",
-      dataType: "jsonP",
+      //dataType: "jsonP",
       async: false
     }).then(function(data){
     	
     	data = JSON.stringify(data)
+
 		switch (flag) {
 			case "0": func = "populateLocation("+data+","+flag+");"; break;
 			case "1": func = "populateLocation("+data+","+flag+");"; break;
-			break
+			case "2": func = "populateBreweryPlan("+data+","+flag+");"; break;
 		}
 		//console.log(func)
     	eval(func)
@@ -426,7 +431,7 @@ function initializeButtonsForNewPlan() {
 				$(".city-state").text(selCity+", "+selState)
 				if (selSD != "" && selED != "")
 					$(".cs-date").text(selSD+" - "+selED)
-
+				getInfoFromAPI("2")
 			})
 		}
 
@@ -529,5 +534,58 @@ function fetchFromDBForEP() {
 			$("#existingPlans").append(button); 
 		})
 	});
+
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : populateBreweryPlan
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : February 12, 2019 PST
+ #  MODIFIED BY   : Maricel Louise Sumulong
+ #  REVISION DATE : February 14, 2019 PST
+ #  REVISION #    : 1
+ #  DESCRIPTION   : populate data for the selected plan
+ #  PARAMETERS    : json data and flag number
+ #
+ #######################################################################
+*/
+
+function populateBreweryPlan(data) {
+
+	var c1 = "brewery-data"
+	var c2 = "brewery-text"
+	var id = "brewery-selection"
+	var key = "name"
+
+	for (var k=0; k < data.length; k++) {
+		//console.log("NAME: "+data[k].name)
+		var inp = $("<input>")
+		inp.attr("type", "checkbox")
+		var sp = $("<span>")
+		sp.attr("class", c1)
+		var a = $("<a>")
+		a.attr("href",data[k]["website_url"])
+		a.attr("target","_blank")
+		var sp1 = $("<span>")
+		sp1.attr("class",c2)
+		sp1.text(data[k][key])
+		sp1.attr("title",
+			"<b>Brewery Type:</b> <i>"+ucwords(data[k]["brewery_type"])+"</i><br/>"+
+			"<b>Address: </b><i>"+data[k]["street"]+", "+data[k]["city"]+", "+data[k]["state"]+"</i><br/><br/>"+
+			"Click on the brewery name to see the website."
+		)
+		a.append(sp1)
+		sp.append(inp)		
+		sp.append(a)
+		$("#"+id).append(sp)
+	}
+
+	$(".brewery-text").tooltip({
+      content: function () {
+          return $(this).prop('title');
+      }
+  	});
 
 }

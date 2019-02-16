@@ -482,8 +482,30 @@ button.ui-button {
     display: block;
     width: 25%;
     margin: auto;
-   
-    
+}
+
+#brewery-selection {
+    max-height: 190px;
+    height: auto;
+    overflow: auto;
+    margin-bottom: 20px;
+    text-align: justify-all;
+    margin-top: 15px;
+}
+
+.brewery-text {
+    cursor: pointer;
+}
+
+.ui-tooltip {
+    white-space: pre-line;
+    font-size: 15px;
+    text-align: justify;
+}
+
+.brewery-data a{
+    text-decoration: none;
+    color: black;
 }
 
 /*--------------------------------PlanDetails html CSS ends Here--------------------------------*/
@@ -572,3 +594,4 @@ button.ui-button {
 
 
 /*--------------------------------UserPlanResult html CSS Ends Here--------------------------------*/
+
