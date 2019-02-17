@@ -359,10 +359,17 @@ button.ui-button {
 }
 
 .concert-data-cont {
-    height: 191px;
+    height: 244px;
     overflow: auto;
     display: inline-block;
     margin-bottom: 15px;
+}
+
+.top-container {
+    display: block;
+    width: 90%;
+    background: green;
+    margin: auto;
 }
 
 .concert-text {
@@ -373,7 +380,7 @@ button.ui-button {
 .ticket-master-container {
     width: 37%;
     background: #ded5d5;
-    height: 304px;
+    height: 350px;
     display: inline-block;
 }
 
@@ -407,89 +414,95 @@ button.ui-button {
 }
 
 .resturant-container {
-    display: inline-block;
-    width: 37%;
+   width: 37%;
     background: #ded5d5;
-    height: 304px;
-    position: relative;
-    top: 26px;
-/*
-    position: relative;
-    top: 132px;
-*/
-}
-
-.resturant-header {
-    display: block;
-    background: #00BCEB;
-    padding: 10px;
-    font-size: 20px;
+    height: 351px;
+    margin: auto;
+    display: inline-block
 }
 
 .resturant-name-container {
-   display: inline-block;
-    width: 25%;
-    height: 235px;
-    background: red;
+    width: 30%;
+    height: 263px;
+    display: inline-block;
 }
 
 .resturant-name-header {
-    display: inline-block;
-    font-size: 15px;
-    margin: 10px;
-    font-weight: bold
+    text-align: center;
 }
-.resturant-text-contaienr{
-       display: block;
-    height: 197px;
+
+.resturant-header {
+    background: #00BCEB;
+    padding: 10px;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.pop-name-container {
+    width: 100%; 
+    /* background: gray; */
+    height: 240px;
     overflow: auto;
-    background: rebeccapurple;
+}
+
+.resturant-text {
+    display: block;
+    text-align: center;
     line-height: 30px;
 }
 
-.rating-container {
-   display: inline-block;
-    width: 25%;
-    height: 233px;
-    background: gray;
+.rest-rating-container {
+       width: 30%;
+    /* background: yellow; */
+    height: 261px;
+    display: inline-block;
 }
 
 .rating-header {
-    display: inline-block;
-    font-size: 15px;
-    margin: 10px;
-    font-weight: bold;
+    text-align: center;
 }
 
-.rest-rating {
+.star-icon-heading {
+    text-align: center;
+}
+
+.star-icon-container {
+    height: 234px;
+    overflow: auto;
+    text-align: center;
+}
+
+.each-rating-icon {
     background-image: url(../images/star.png);
-    background-size: cover;
-    width: 22%;
-    height: 19px;
+    width: 30px;
+    height: 50px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: block;
 }
 
 .food-style-container {
+    width: 30%;
+    /* background: yellow; */
+    height: 257px;
     display: inline-block;
-    width: 25%;
-/*
-    position: relative;
-    top: -101px;
-*/
 }
 
-.food-style-cont {
-/*
-    position: relative;
-    top: 10px;
-*/
+.food-style-heading {
+    text-align: center;
 }
 
-.food-style-header {
-    display: inline-block;
-    font-size: 13px;
-    /* width: 58%; */
-    /* background: red; */
-    font-weight: bold;
+.rest-food-style-cont {
+        /* background: gray; */
+    height: 238px;
+    overflow: auto;
+    text-align: center;
+}
+
+.rest-name-cont {
+    display: block;
+    line-height: 30px;
 }
 
 .food-master-btn {
@@ -501,11 +514,7 @@ button.ui-button {
     display: block;
     width: 25%;
     margin: auto;
-/*
-    position: relative;
-    top: -127px;
-*/
-    /*    margin-top: 47px;*/
+ 
 }
 
 .food-master-btn:hover {
@@ -521,7 +530,7 @@ button.ui-button {
 }
 
 .weather-container {
-/*
+    /*
     position: relative;
     top: -70px;
 */
