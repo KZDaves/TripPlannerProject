@@ -15,8 +15,10 @@ html {
 }
 
 @font-face {
-    font-family: 'AutumnInNovember'; /*a name to be used later*/
-    src: url('../lib/Autumn in November.ttf'); /*URL to font*/
+    font-family: 'AutumnInNovember';
+    /*a name to be used later*/
+    src: url('../lib/Autumn in November.ttf');
+    /*URL to font*/
 }
 
 .pdHeader {
@@ -45,7 +47,8 @@ html {
     background: #0ebfe9;
 }
 
-#planName, #exTitle {
+#planName,
+#exTitle {
     font-size: 30px;
     font-weight: bold;
     color: #7D26CD;
@@ -58,9 +61,13 @@ html {
     font-family: "AutumnInNovember";
 }
 
+
 /* CITY AND STATE PAGE - START */
 
-#cities, #states, #endDatePicker, #startDatePicker {
+#cities,
+#states,
+#endDatePicker,
+#startDatePicker {
     min-width: 300px;
     width: auto;
     height: 30px;
@@ -75,17 +82,20 @@ html {
 
 .message {
     color: gray;
-    font-size:80%;
-    display:block;
+    font-size: 80%;
+    display: block;
 }
 
 .required {
     color: red;
-    font-size:80%;
+    font-size: 80%;
     display: inline;
 }
 
-#cityLabel, #stateLabel, #endDateLabel, #startDateLabel {
+#cityLabel,
+#stateLabel,
+#endDateLabel,
+#startDateLabel {
     display: inline-block;
     padding-top: 5px;
     text-align: justify;
@@ -128,7 +138,8 @@ html {
     display: none;
 }
 
-#stateSelect, #citySelect {
+#stateSelect,
+#citySelect {
     max-height: 100px;
     overflow: auto;
     background-color: white;
@@ -142,13 +153,15 @@ html {
     /*text-align: justify;*/
 }
 
-.liStateSelect:hover, .liCitySelect:hover {
+.liStateSelect:hover,
+.liCitySelect:hover {
     color: white;
     background-color: #4B0082;
     cursor: pointer;
 }
 
-#ulStateSelect, #ulCitySelect {
+#ulStateSelect,
+#ulCitySelect {
     padding: 0px 5px;
     margin: 0;
 }
@@ -164,7 +177,9 @@ button.ui-button {
     font-family: 'Georgia', Times, Times New Roman, serif;
 }
 
+
 /* CITY AND STATE PAGE - END */
+
 
 /* EXISTING PLAN DETAILS PAGE - START */
 
@@ -194,11 +209,12 @@ button.ui-button {
     border-bottom: 2px solid black;
 }
 
-#breweryInfo, #restaurantInfo, #eventInfo {
+#breweryInfo,
+#restaurantInfo,
+#eventInfo {
     float: left;
     border: 2px solid black;
     min-height: 150px;
-
 }
 
 #breweryInfo {
@@ -243,7 +259,9 @@ button.ui-button {
     transform: translate(-50%, -50%);
 }
 
+
 /* EXISTING PLAN DETAILS PAGE - END */
+
 
 /*Existing Plans Page*/
 
@@ -280,14 +298,16 @@ button.ui-button {
     margin: 40px 5px 10px 5px;
 }
 
+
 /*Existing Plans Page - END*/
+
 
 /* INDEX - START */
 
 #menu {
     float: right;
     margin-top: 5px;
-    margin-right: -200px; 
+    margin-right: -200px;
     cursor: pointer;
     height: 80px;
     width: 150px;
@@ -310,12 +330,15 @@ button.ui-button {
     color: black;
     width: 100%;
 }
+
+
 /* INDEX - END */
+
 
 /*--------------------------------PlanDetails html CSS starts Here--------------------------------*/
 
 .existing-plan-container {
-    display: block;*/
+    display: block;
     width: 100%;
 }
 
@@ -335,10 +358,41 @@ button.ui-button {
     margin: 15px;
 }
 
-.ticket-master-container,
-.brewery-container,
+.concert-data-cont {
+    height: 244px;
+    overflow: auto;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.top-container {
+    display: block;
+    width: 90%;
+    background: green;
+    margin: auto;
+}
+
+.concert-text {
+    display: inline-block;
+    width: 94%;
+}
+
+.ticket-master-container {
+    width: 37%;
+    background: #ded5d5;
+    height: 350px;
+    display: inline-block;
+}
+
+.brewery-container {
+    width: 37%;
+    background: #ded5d5;
+    height: 304px;
+    display: inline-block;
+}
+
 .weather-container {
-    width: 24%;
+    width: 37%;
     background: #ded5d5;
     height: 304px;
     display: inline-block;
@@ -350,6 +404,9 @@ button.ui-button {
     padding: 10px;
     border-radius: 6px;
     cursor: pointer;
+    display: block;
+    width: 20%;
+    margin: auto;
 }
 
 .ticket-master-btn:hover {
@@ -357,72 +414,95 @@ button.ui-button {
 }
 
 .resturant-container {
-    display: inline-block;
-    width: 25%;
+   width: 37%;
     background: #ded5d5;
-    height: 304px;
-    position: relative;
-    top: 132px;
-}
-
-.resturant-header {
-    display: block;
-    background: #00BCEB;
-    padding: 10px;
-    font-size: 20px;
+    height: 351px;
+    margin: auto;
+    display: inline-block
 }
 
 .resturant-name-container {
+    width: 30%;
+    height: 263px;
     display: inline-block;
-    width: 25%;
 }
 
 .resturant-name-header {
-    display: inline-block;
-    font-size: 15px;
-    margin: 10px;
-    font-weight: bold
+    text-align: center;
 }
 
-.rating-container {
+.resturant-header {
+    background: #00BCEB;
+    padding: 10px;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.pop-name-container {
+    width: 100%; 
+    /* background: gray; */
+    height: 240px;
+    overflow: auto;
+}
+
+.resturant-text {
+    display: block;
+    text-align: center;
+    line-height: 30px;
+}
+
+.rest-rating-container {
+       width: 30%;
+    /* background: yellow; */
+    height: 261px;
     display: inline-block;
-    width: 25%;
-    position: relative;
-    top: -179px;
 }
 
 .rating-header {
-    display: inline-block;
-    font-size: 15px;
-    margin: 10px;
-    font-weight: bold;
+    text-align: center;
 }
 
-.rest-rating {
+.star-icon-heading {
+    text-align: center;
+}
+
+.star-icon-container {
+    height: 234px;
+    overflow: auto;
+    text-align: center;
+}
+
+.each-rating-icon {
     background-image: url(../images/star.png);
-    background-size: cover;
-    width: 22%;
-    height: 19px;
+    width: 30px;
+    height: 50px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: block;
 }
 
 .food-style-container {
+    width: 30%;
+    /* background: yellow; */
+    height: 257px;
     display: inline-block;
-    width: 25%;
-    position: relative;
-    top: -101px;
 }
 
-.food-style-cont {
-    position: relative;
-    top: 10px;
+.food-style-heading {
+    text-align: center;
 }
 
-.food-style-header {
-    display: inline-block;
-    font-size: 13px;
-    /* width: 58%; */
-    /* background: red; */
-    font-weight: bold;
+.rest-food-style-cont {
+        /* background: gray; */
+    height: 238px;
+    overflow: auto;
+    text-align: center;
+}
+
+.rest-name-cont {
+    display: block;
+    line-height: 30px;
 }
 
 .food-master-btn {
@@ -434,9 +514,7 @@ button.ui-button {
     display: block;
     width: 25%;
     margin: auto;
-    position: relative;
-    top: -127px;
-    /*    margin-top: 47px;*/
+ 
 }
 
 .food-master-btn:hover {
@@ -452,8 +530,10 @@ button.ui-button {
 }
 
 .weather-container {
+    /*
     position: relative;
     top: -70px;
+*/
 }
 
 .weather-data {
@@ -473,7 +553,7 @@ button.ui-button {
     color: white;
 }
 
-.addAll-plan-btn{
+.addAll-plan-btn {
     background: #005073;
     color: white;
     padding: 10px;
@@ -503,10 +583,11 @@ button.ui-button {
     text-align: justify;
 }
 
-.brewery-data a{
+.brewery-data a {
     text-decoration: none;
     color: black;
 }
+
 
 /*--------------------------------PlanDetails html CSS ends Here--------------------------------*/
 
@@ -560,26 +641,33 @@ button.ui-button {
     background: #c9c5c5;
     margin: 10px;
     overflow: scroll;
-    border-radius: 5px 5px 0px 0px ;
+    border-radius: 5px 5px 0px 0px;
 }
 
-.result-ticket-header, .result-resturant-header, .result-weather-header {
+.result-ticket-header,
+.result-resturant-header,
+.result-weather-header {
     display: block;
     background: #00BCEB;
     height: 25px;
     padding-top: 7px;
     border-radius: 5px 5px 0px 0px;
 }
-.result-ticket-data, .result-resturant-data, .result-weather-data{
+
+.result-ticket-data,
+.result-resturant-data,
+.result-weather-data {
     display: block;
     padding: 5px;
 }
-.result-footer-button-container{
+
+.result-footer-button-container {
     display: block;
     margin-top: 75px;
-
 }
-.result-cancel-btn, .result-confirm-btn {
+
+.result-cancel-btn,
+.result-confirm-btn {
     background: #005073;
     color: white;
     padding: 10px;
@@ -594,4 +682,3 @@ button.ui-button {
 
 
 /*--------------------------------UserPlanResult html CSS Ends Here--------------------------------*/
-
