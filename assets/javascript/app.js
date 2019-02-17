@@ -544,8 +544,8 @@ function fetchFromDBForEP() {
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : February 12, 2019 PST
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : February 14, 2019 PST
- #  REVISION #    : 1
+ #  REVISION DATE : February 15, 2019 PST
+ #  REVISION #    : 2
  #  DESCRIPTION   : populate data for the selected plan
  #  PARAMETERS    : json data and flag number
  #
@@ -574,7 +574,7 @@ function populateBreweryPlan(data) {
 		sp1.attr("title",
 			"<b>Brewery Type:</b> <i>"+ucwords(data[k]["brewery_type"])+"</i><br/>"+
 			"<b>Address: </b><i>"+data[k]["street"]+", "+data[k]["city"]+", "+data[k]["state"]+"</i><br/><br/>"+
-			"Click on the brewery name to see the website."
+			"Click on the brewery name to see the website on a new page."
 		)
 		a.append(sp1)
 		sp.append(inp)		
