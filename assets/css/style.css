@@ -541,6 +541,9 @@ button.ui-button {
     text-align: center;
     margin: 15px;
 }
+.weather-text{
+    margin-right:100px;
+}
 
 .city-state {
     font-size: 30px;

@@ -164,6 +164,10 @@ function getInfoFromAPI(flag) {
     			queryURL = 'https://app.ticketmaster.com/discovery/v2/events.json?city='+selCity+'&stateCode='+twoCodes[selState]+'&apikey=EXGXKSEnRzDBbVr3BJ2nvN2cpjnl8ZUO'
     		  }
     	break;
+        case "4":
+            queryURL = "https://api.openweathermap.org/data/2.5/weather?q="+selCity+",US&APPID=f61a88fc8b9c9ad98526c1f405a60125"
+            //console.log(queryURL)
+        break;
     }
 
     $.ajax({
@@ -173,11 +177,13 @@ function getInfoFromAPI(flag) {
         async: false
     }).then(function (data) {
         data = JSON.stringify(data)
+        //console.log("DATA: "+data)
         switch (flag) {
 	        case "0": func = "populateLocation(" + data + "," + flag + ");"; break;
 	        case "1": func = "populateLocation(" + data + "," + flag + ");"; break;
 	        case "2": func = "populateBreweryPlan(" + data + "," + flag + ");"; break;
 	        case "3": func = "getEvents(" + data + "," + flag + ");"; break;
+            case "4": func = "getEvents(" + data + "," + flag + ");"; break;
        	}
         //console.log(func)
         eval(func)
@@ -442,7 +448,9 @@ function initializeButtonsForNewPlan() {
                 	$(".cs-date").text(selSD + " - " + selED)
                 getInfoFromAPI("2")
                 getInfoFromAPI("3")
+                getInfoFromAPI("4")
                 $(".addAll-plan-btn").on("click", function () {
+                    //getEvents()
                     $("#mainContainer").load("./assets/html/userPlanResult.html", function () {})
                 })
             })
@@ -624,9 +632,9 @@ function populateBreweryPlan(data) {
  #  FUNCTION NAME : getEvents
  #  AUTHOR        : Janak Tripathee
  #  DATE          : February 16, 2019 PST
- #  MODIFIED BY   : 
- #  REVISION DATE : 
- #  REVISION #    : 
+ #  MODIFIED BY   : Maricel Louise Sumulong
+ #  REVISION DATE : February 17, 2019 PST
+ #  REVISION #    : 1
  #  DESCRIPTION   : get ticketmaster data in UserPlanResult page
  #  PARAMETERS    : data, flag
  #
@@ -635,24 +643,34 @@ function populateBreweryPlan(data) {
 
 function getEvents(data, flag) {
     
-    var events = (data._embedded && data._embedded.events) || []
-    for (var event of events) {
-    	//console.log(event.name)
-    	//console.log(event.id)
-    	var ti = "\
-    		"+getDate(event.dates.start.localDate)+" &bull; "+getTime(event.dates.start.localTime)+"\
-    		<br>"+event._embedded.venues[0]["name"]+", "+event._embedded.venues[0]["city"]["name"]+", "+twoCodes[selState]+"<br>\
-    		<br><br>Click on the event name for more details\
-    	"
-        $('.concert-data-cont').append('<span class="concert-data">' + '<a href="'+event.url+'" target="_blank"><span class="concert-text" title="'+ti+'" >' + event.name + '</span></a>' + '<input type="checkbox">' + '</span>')
-        //console.log(event.id)
-    }
+    switch (flag) {
+        case 3: case "3":
+            var events = (data._embedded && data._embedded.events) || []
+            for (var event of events) {
+            	//console.log(event.name)
+            	//console.log(event.id)
+            	var ti = "\
+            		"+getDate(event.dates.start.localDate)+" &bull; "+getTime(event.dates.start.localTime)+"\
+            		<br>"+event._embedded.venues[0]["name"]+", "+event._embedded.venues[0]["city"]["name"]+", "+twoCodes[selState]+"<br>\
+            		<br><br>Click on the event name for more details\
+            	"
+                $('.concert-data-cont').append('<span class="concert-data">' + '<a href="'+event.url+'" target="_blank"><span class="concert-text" title="'+ti+'" >' + event.name + '</span></a>' + '<input type="checkbox">' + '</span>')
+                //console.log(event.id)
+            }
 
-    $(".concert-text").tooltip({
-      content: function () {
-          return $(this).prop('title');
-      }
-  	});
+            $(".concert-text").tooltip({
+              content: function () {
+                  return $(this).prop('title');
+              }
+          	});
+        break;
+        case 4: case "4":
+            $(".temperature").text(data.main.temp);
+            $(".humidity").text(data.main.humidity);
+            $(".min-temp").text(data.main.temp_min);
+            $(".max-temp").text(data.main.temp_max);
+        break;
+    }
 
 }
 
