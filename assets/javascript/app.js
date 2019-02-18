@@ -397,6 +397,7 @@ function initializeButtonsForNewPlan() {
                 getInfoFromAPI("2")
                 getEvents()
                 $(".addAll-plan-btn").on("click", function () {
+                    getEvents()
                     $("#mainContainer").load("./assets/html/userPlanResult.html", function () {})
                 })
             })
@@ -563,4 +564,16 @@ function getEvents() {
         }
         console.log(data, "ticketmaster");
     })
+    
+    $.ajax({
+        url: "https://api.openweathermap.org/data/2.5/weather?q="+selCity+",US&APPID=f61a88fc8b9c9ad98526c1f405a60125"
+        , method: "GET"
+    }).then(function (data) {
+        //console.log(data.main,'weatehr')
+        $(".temperature").text(data.main.temp);
+        $(".humidity").text(data.main.humidity);
+        $(".min-temp").text(data.main.temp_min);
+        $(".max-temp").text(data.main.temp_max);
+    })
+    
 }
