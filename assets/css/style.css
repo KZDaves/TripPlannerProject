@@ -354,7 +354,7 @@ button.ui-button {
 .concert-data,
 .brewery-data {
     display: block;
-    text-align: center;
+    text-align: justify;
     margin: 15px;
 }
 
@@ -387,7 +387,7 @@ button.ui-button {
 .brewery-container {
     width: 37%;
     background: #ded5d5;
-    height: 304px;
+    height: 365px;
     display: inline-block;
 }
 
@@ -565,15 +565,13 @@ button.ui-button {
 }
 
 #brewery-selection {
-    max-height: 190px;
-    height: auto;
     overflow: auto;
-    margin-bottom: 20px;
-    text-align: justify-all;
-    margin-top: 15px;
+    height: 244px;
+    width: 100%;
+    margin: 15px 5px 20px 5px;
 }
 
-.brewery-text {
+.brewery-text, .concert-text {
     cursor: pointer;
 }
 
@@ -583,7 +581,7 @@ button.ui-button {
     text-align: justify;
 }
 
-.brewery-data a {
+.brewery-data a, .concert-data a {
     text-decoration: none;
     color: black;
 }

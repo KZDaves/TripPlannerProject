@@ -19,13 +19,14 @@
 // Initialize Firebase
 
 var config = {
-    apiKey: "AIzaSyARhBOFgmMf_9cj5S_Eq3zKI6D4AqCNIz4"
-    , authDomain: "tripplanner-47fd1.firebaseapp.com"
-    , databaseURL: "https://tripplanner-47fd1.firebaseio.com"
-    , projectId: "tripplanner-47fd1"
-    , storageBucket: "tripplanner-47fd1.appspot.com"
-    , messagingSenderId: "556604987785"
+    apiKey: "AIzaSyARhBOFgmMf_9cj5S_Eq3zKI6D4AqCNIz4",
+    authDomain: "tripplanner-47fd1.firebaseapp.com",
+    databaseURL: "https://tripplanner-47fd1.firebaseio.com",
+    projectId: "tripplanner-47fd1",
+    storageBucket: "tripplanner-47fd1.appspot.com",
+    messagingSenderId: "556604987785"
 };
+
 firebase.initializeApp(config);
 
 var database = firebase.database();
@@ -130,8 +131,8 @@ function populateLocation(flag) {
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : February 07, 2019 PST
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : February 12, 2019 PST
- #  REVISION #    : 2
+ #  REVISION DATE : February 17, 2019 PST
+ #  REVISION #    : 3
  #  DESCRIPTION   : submits and fetches info from API
  #  PARAMETERS    : flag number
  #
@@ -142,18 +143,27 @@ function getInfoFromAPI(flag) {
 
     var queryURL
     var func
+  
     switch (flag) {
-    case "0":
-        queryURL = "https://battuta.medunes.net/api/region/us/all/?key=b5a73435674d312ed09479b91666a083"
+   		case "0":
+        	queryURL = "https://battuta.medunes.net/api/region/us/all/?key=b5a73435674d312ed09479b91666a083"
         break;
-    case "1":
-        region = $("#states").val()
-        queryURL = "https://battuta.medunes.net/api/city/us/search/?region=" + region + "&key=b5a73435674d312ed09479b91666a083"
+   		case "1":
+        	region = $("#states").val()
+        	queryURL = "https://battuta.medunes.net/api/city/us/search/?region=" + region + "&key=b5a73435674d312ed09479b91666a083"
         break
-    case "2":
-        queryURL = "https://api.openbrewerydb.org/breweries?by_city=" + selCity + "&by_state=" + selState + "&sort=name&per_page=50"
-            //console.log(queryURL)
+    	case "2":
+       		queryURL = "https://api.openbrewerydb.org/breweries?by_city=" + selCity + "&by_state=" + selState + "&sort=name&per_page=50"
+     	    //console.log(queryURL)
         break;
+        case "3":
+        	if (selSD != "" && selED != "") {
+        		queryURL = 'https://app.ticketmaster.com/discovery/v2/events.json?city='+selCity+'&stateCode='+twoCodes[selState]+'&apikey=EXGXKSEnRzDBbVr3BJ2nvN2cpjnl8ZUO'+"&startDateTime="+moment(selSD).format('YYYY-MM-DDTHH:mm:ssZ')+"&endDateTime="+ moment(selED).format('YYYY-MM-DDTHH:mm:ssZ')+"&sort=date,asc";
+        		console.log(queryURL) 
+    		} else {
+    			queryURL = 'https://app.ticketmaster.com/discovery/v2/events.json?city='+selCity+'&stateCode='+twoCodes[selState]+'&apikey=EXGXKSEnRzDBbVr3BJ2nvN2cpjnl8ZUO'
+    		  }
+    	break;
     }
 
     $.ajax({
@@ -167,6 +177,7 @@ function getInfoFromAPI(flag) {
 	        case "0": func = "populateLocation(" + data + "," + flag + ");"; break;
 	        case "1": func = "populateLocation(" + data + "," + flag + ");"; break;
 	        case "2": func = "populateBreweryPlan(" + data + "," + flag + ");"; break;
+	        case "3": func = "getEvents(" + data + "," + flag + ");"; break;
        	}
         //console.log(func)
         eval(func)
@@ -308,14 +319,14 @@ function alertMsg(type, msg, todo) {
 	        $("body").append("<div id='msg' style='display:none' class='label'><center>" + msg + "</msg>");
 	        //$( "#msg" ).dialog("destroy");
 	        $("#msg").dialog({
-	            height: "auto"
-	            resizable: false
-	            modal: true
-	            closeOnEscape: false
+	            height: "auto",
+	            resizable: false,
+	            modal: true,
+	            closeOnEscape: false,
 	            open: function (event, ui) {
 	                $(".ui-dialog-titlebar-close").hide();
 	                $(".ui-dialog :button").blur();
-	            }
+	            },
 	            buttons: {
 	                "Yes": function () {
 	                    $("#msg").dialog("destroy");
@@ -388,9 +399,9 @@ function fetchFromDB(node) {
  #  FUNCTION NAME : initializeButtonsForNewPlan
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : February 10, 2019 PST
- #  MODIFIED BY   : 
- #  REVISION DATE : 
- #  REVISION #    : 
+ #  MODIFIED BY   : Maricel Louise Sumulong
+ #  REVISION DATE : February 17, 2019 PST
+ #  REVISION #    : 1
  #  DESCRIPTION   : initializes button when new plan button is clicked
  #  PARAMETERS    : none
  #
@@ -430,7 +441,7 @@ function initializeButtonsForNewPlan() {
                 if (selSD != "" && selED != "") 
                 	$(".cs-date").text(selSD + " - " + selED)
                 getInfoFromAPI("2")
-                getEvents()
+                getInfoFromAPI("3")
                 $(".addAll-plan-btn").on("click", function () {
                     $("#mainContainer").load("./assets/html/userPlanResult.html", function () {})
                 })
@@ -547,8 +558,8 @@ function fetchFromDBForEP() {
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : February 12, 2019 PST
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : February 15, 2019 PST
- #  REVISION #    : 2
+ #  REVISION DATE : February 17, 2019 PST
+ #  REVISION #    : 3
  #  DESCRIPTION   : populate data for the selected plan
  #  PARAMETERS    : json data and flag number
  #
@@ -562,33 +573,48 @@ function populateBreweryPlan(data) {
 	var id = "brewery-selection"
 	var key = "name"
 
-	for (var k=0; k < data.length; k++) {
-		var inp = $("<input>")
-		inp.attr("type", "checkbox")
-		var sp = $("<span>")
-		sp.attr("class", c1)
-		var a = $("<a>")
-		a.attr("href",data[k]["website_url"])
-		a.attr("target","_blank")
-		var sp1 = $("<span>")
-		sp1.attr("class",c2)
-		sp1.text(data[k][key])
-		sp1.attr("title",
-			"<b>Brewery Type:</b> <i>"+ucwords(data[k]["brewery_type"])+"</i><br/>"+
-			"<b>Address: </b><i>"+data[k]["street"]+", "+data[k]["city"]+", "+data[k]["state"]+"</i><br/><br/>"+
-			"Click on the brewery name to see the website on a new page."
-		)
-		a.append(sp1)
-		sp.append(inp)		
-		sp.append(a)
-		$("#"+id).append(sp)
-	}
+	if (data.length == 0) {
 
-	$(".brewery-text").tooltip({
-      content: function () {
-          return $(this).prop('title');
-      }
-  	});
+		$("#"+id).append("No brewery available for the selected city.")
+
+	} else {
+
+		for (var k=0; k < data.length; k++) {
+			var inp = $("<input>")
+			inp.attr("type", "checkbox")
+			var sp = $("<span>")
+			sp.attr("class", c1)
+			var a = $("<a>")
+			a.attr("href",data[k]["website_url"])
+			a.attr("target","_blank")
+			var sp1 = $("<span>")
+			sp1.attr("class",c2)
+			sp1.text(data[k][key])
+			var add = ""
+			if (data[k]["street"] != "")
+				add += data[k]["street"]+", "
+			add += data[k]["city"]+", "+data[k]["state"]
+			sp1.attr("title",
+				"<b>Brewery Type:</b> <i>"+ucwords(data[k]["brewery_type"])+"</i><br/>"+
+				"<b>Address: </b><i>"+add+"</i><br/><br/>"+
+				"Click on the brewery name to see the website on a new page."
+			)
+			a.append(sp1)
+			sp.append(inp)
+			sp.append("&nbsp;")	
+			sp.append("&nbsp;")	
+			sp.append("&nbsp;")		
+			sp.append(a)
+			$("#"+id).append(sp)
+		}
+
+		$(".brewery-text").tooltip({
+	      content: function () {
+	          return $(this).prop('title');
+	      }
+	  	});
+
+	  }
 
 }
 
@@ -602,24 +628,92 @@ function populateBreweryPlan(data) {
  #  REVISION DATE : 
  #  REVISION #    : 
  #  DESCRIPTION   : get ticketmaster data in UserPlanResult page
- #  PARAMETERS    : none
+ #  PARAMETERS    : data, flag
  #
  #######################################################################
- */
+*/
 
-function getEvents() {
-    //    var queryURL = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=EXGXKSEnRzDBbVr3BJ2nvN2cpjnl8ZUO&city=" + selCity + "&stateCode=" + selState+"&startDateTime="+moment(selSD).format('YYYY-MM-DDTHH:mm:ssZ')+"&endDateTime="+ moment(selED).format('YYYY-MM-DDTHH:mm:ssZ'); 
-    var queryURL = 'https://app.ticketmaster.com/discovery/v2/events.json?apikey=EXGXKSEnRzDBbVr3BJ2nvN2cpjnl8ZUO'
-        //var theKey = "c837bf84d96c94c2390f43f5f1790825"; 
-    $.ajax({
-        url: queryURL
-        , method: "GET"
-    }).then(function (data) {
-        var events = (data._embedded && data._embedded.events) || []
-        for (var event of events) {
-            $('.concert-data-cont').append('<span class="concert-data">' + '<span class="concert-text">' + event.name + '</span>' + '<input type="checkbox">' + '</span>')
-        }
-        console.log(data, "ticketmaster");
-    })
+function getEvents(data, flag) {
+    
+    var events = (data._embedded && data._embedded.events) || []
+    for (var event of events) {
+    	//console.log(event.name)
+    	//console.log(event.id)
+    	var ti = "\
+    		"+getDate(event.dates.start.localDate)+" &bull; "+getTime(event.dates.start.localTime)+"\
+    		<br>"+event._embedded.venues[0]["name"]+", "+event._embedded.venues[0]["city"]["name"]+", "+twoCodes[selState]+"<br>\
+    		<br><br>Click on the event name for more details\
+    	"
+        $('.concert-data-cont').append('<span class="concert-data">' + '<a href="'+event.url+'" target="_blank"><span class="concert-text" title="'+ti+'" >' + event.name + '</span></a>' + '<input type="checkbox">' + '</span>')
+        //console.log(event.id)
+    }
+
+    $(".concert-text").tooltip({
+      content: function () {
+          return $(this).prop('title');
+      }
+  	});
+
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : getDate
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : February 17, 2019 PST
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : transform date data into human readable form
+ #  PARAMETERS    : date info
+ #
+ #######################################################################
+*/
+
+function getDate(date) {
+
+	var month = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Nov","Dec"]
+	var dArr = date.split("-")
+	var dStr = month[parseInt(dArr[1])-1]+" "+dArr[2]+", "+dArr[0]
+
+	return dStr
+
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : getTime
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : February 17, 2019 PST
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : transform date data into human readable form
+ #  PARAMETERS    : time info
+ #
+ #######################################################################
+*/
+
+function getTime(time) {
+
+	if (time == undefined)
+		return "TBA"
+
+	var tArr = time.split(":")
+	var n
+	var tStr = ""
+
+	if (parseInt(tArr[0]) > 12) {
+		n = parseInt(tArr[0]) - 12
+		tStr = n+":"+tArr[1]+ "PM"
+	} else if (parseInt(tArr[0]) < 12) {
+		tStr = tArr[0]+":"+tArr[1]+ "AM"
+	  } else {
+	  		tStr = "12:00 NN"
+	    }
+
+	return tStr
 
 }

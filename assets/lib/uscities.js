@@ -624,6 +624,8 @@ var uscities = {
 	]
 }
 
+/* pulled from https://gist.github.com/tvpmb/4734703 */
+
 var twoCodes = {
 	"Alabama":"AL",
 	"Alaska":"AK",
