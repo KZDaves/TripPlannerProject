@@ -566,8 +566,8 @@ function fetchFromDBForEP() {
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : February 12, 2019 PST
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : February 17, 2019 PST
- #  REVISION #    : 3
+ #  REVISION DATE : February 18, 2019 PST
+ #  REVISION #    : 4
  #  DESCRIPTION   : populate data for the selected plan
  #  PARAMETERS    : json data and flag number
  #
@@ -583,7 +583,7 @@ function populateBreweryPlan(data) {
 
 	if (data.length == 0) {
 
-		$("#"+id).append("No brewery available for the selected city.")
+		$("#"+id).append("<br><br><br><br>No available brewery for the selected location.")
 
 	} else {
 
@@ -633,8 +633,8 @@ function populateBreweryPlan(data) {
  #  AUTHOR        : Janak Tripathee
  #  DATE          : February 16, 2019 PST
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : February 17, 2019 PST
- #  REVISION #    : 1
+ #  REVISION DATE : February 18, 2019 PST
+ #  REVISION #    : 2
  #  DESCRIPTION   : get ticketmaster data in UserPlanResult page
  #  PARAMETERS    : data, flag
  #
@@ -646,23 +646,27 @@ function getEvents(data, flag) {
     switch (flag) {
         case 3: case "3":
             var events = (data._embedded && data._embedded.events) || []
-            for (var event of events) {
-            	//console.log(event.name)
-            	//console.log(event.id)
-            	var ti = "\
-            		"+getDate(event.dates.start.localDate)+" &bull; "+getTime(event.dates.start.localTime)+"\
-            		<br>"+event._embedded.venues[0]["name"]+", "+event._embedded.venues[0]["city"]["name"]+", "+twoCodes[selState]+"<br>\
-            		<br><br>Click on the event name for more details\
-            	"
-                $('.concert-data-cont').append('<span class="concert-data">' + '<a href="'+event.url+'" target="_blank"><span class="concert-text" title="'+ti+'" >' + event.name + '</span></a>' + '<input type="checkbox">' + '</span>')
-                //console.log(event.id)
-            }
+            if (events.length == 0) {
+                $('.concert-data-cont').append("<br><br><br><br>No available events for the selected location.")
+            } else { 
+                for (var event of events) {
+                	//console.log(event.name)
+                	//console.log(event.id)
+                	var ti = "\
+                		"+getDate(event.dates.start.localDate)+" &bull; "+getTime(event.dates.start.localTime)+"\
+                		<br>"+event._embedded.venues[0]["name"]+", "+event._embedded.venues[0]["city"]["name"]+", "+twoCodes[selState]+"<br>\
+                		<br><br>Click on the event name for more details\
+                	"
+                    $('.concert-data-cont').append('<span class="concert-data">' + '<a href="'+event.url+'" target="_blank"><span class="concert-text" title="'+ti+'" >' + event.name + '</span></a>' + '<input type="checkbox">' + '</span>')
+                    //console.log(event.id)
+                }
 
-            $(".concert-text").tooltip({
-              content: function () {
-                  return $(this).prop('title');
+                $(".concert-text").tooltip({
+                  content: function () {
+                      return $(this).prop('title');
+                  }
+              	});
               }
-          	});
         break;
         case 4: case "4":
             $(".temperature").text(data.main.temp);
