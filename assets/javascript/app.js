@@ -772,8 +772,33 @@ function getRestaurants(){
         }, 
         method: "GET"
     }).then(function(data){
-        console.log(data);
-    })
+        if(data.best_rated_restaurant.length == 0){
+            $(".pop-name-container").html("No restaurant recommendations available for the selected city.");
+        } else{
+            for(var i=0; i<data.best_rated_restaurant.length; i++){
+                var newRestaurant = $("<div class='restaurantItem'>"); 
+                newRestaurant.html(
+                    `<div>`+
+                        `<input type="checkbox">`+
+                        `<span class="restaurantDetails"`+
+                            `title="<b>Address: </b><i>${data.best_rated_restaurant[i].restaurant.location.address}</i>`+
+                            `<br><br>Click restaurant name to see their website on a new page.">` +
+                            `<a href="${data.best_rated_restaurant[i].restaurant.url}" target="_blank">${data.best_rated_restaurant[i].restaurant.name}</a>`+
+                        `</span`+ 
+                     `</div>`+
+                     `<div>${data.best_rated_restaurant[i].restaurant.user_rating.aggregate_rating} </div>`+
+                     `<div>${data.best_rated_restaurant[i].restaurant.cuisines}</div>`
+                    ); 
+                $(".pop-name-container").append(newRestaurant); 
+            }
+
+            $(".restaurantDetails").tooltip({
+                content: function(){
+                    return $(this).prop("title"); 
+                }
+            })
+            } 
+        })
 }
 
 /*
@@ -786,7 +811,7 @@ function getRestaurants(){
  #  REVISION DATE : 
  #  REVISION #    : 
  #  DESCRIPTION   : sets cityID var to Zomato API's numerical value for selected city/state pair. 
- #  PARAMETERS    : 
+ #  PARAMETERS    : data (API JSON output)
  #
  #######################################################################
 */
