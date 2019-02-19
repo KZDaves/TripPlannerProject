@@ -1,8 +1,8 @@
 /* GENERAL */
 
 body {
-    background-image: url("../images/main.jpg");
-    background-repeat: no-repeat;
+    background-image: url(../images/main.jpg);
+    /* background-repeat: no-repeat; */
     background-size: cover;
     font-family: 'Georgia', Times, Times New Roman, serif;
     text-align: center;
@@ -349,6 +349,7 @@ button.ui-button {
     background: #00BCEB;
     padding: 10px;
     font-size: 20px;
+    border-radius: 10px 10px 0px 0px;
 }
 
 .concert-data,
@@ -368,8 +369,10 @@ button.ui-button {
 .top-container {
     display: block;
     width: 90%;
-    background: green;
+/*    background: #005075;*/
     margin: auto;
+    height: 450px;
+    border-radius: 10px;
 }
 
 .concert-text {
@@ -378,24 +381,32 @@ button.ui-button {
 }
 
 .ticket-master-container {
-    width: 37%;
+    width: 34%;
     background: #ded5d5;
     height: 350px;
     display: inline-block;
+    margin-top: 45px;
+    margin-right: 50px;
+    border-radius: 10px 10px 0px 0px;
 }
 
 .brewery-container {
-    width: 37%;
+    width: 34%;
     background: #ded5d5;
-    height: 365px;
+    height: 370px;
     display: inline-block;
+    margin-right: 50px;
+    border-radius: 10px 10px 0px 0px;
 }
 
 .weather-container {
-    width: 37%;
+    position: relative;
+    top: -4px;
+    width: 34%;
     background: #ded5d5;
-    height: 304px;
+    height: 370px;
     display: inline-block;
+    border-radius: 10px 10px 0px 0px;
 }
 
 .ticket-master-btn {
@@ -414,11 +425,14 @@ button.ui-button {
 }
 
 .resturant-container {
-   width: 37%;
+    width: 34%;
     background: #ded5d5;
     height: 351px;
     margin: auto;
-    display: inline-block
+    display: inline-block;
+    position: relative;
+    top: 4px;
+    border-radius: 10px 10px 0px 0px;
 }
 
 .resturant-name-container {
@@ -436,11 +450,11 @@ button.ui-button {
     padding: 10px;
     font-size: 20px;
     text-align: center;
-    border-radius: 5px 5px 0px 0px;
+    border-radius: 10px 10px 0px 0px;
 }
 
 .pop-name-container {
-    width: 100%; 
+    width: 100%;
     /* background: gray; */
     height: 240px;
     overflow: auto;
@@ -453,7 +467,7 @@ button.ui-button {
 }
 
 .rest-rating-container {
-       width: 30%;
+    width: 30%;
     /* background: yellow; */
     height: 261px;
     display: inline-block;
@@ -494,7 +508,7 @@ button.ui-button {
 }
 
 .rest-food-style-cont {
-        /* background: gray; */
+    /* background: gray; */
     height: 238px;
     overflow: auto;
     text-align: center;
@@ -514,7 +528,6 @@ button.ui-button {
     display: block;
     width: 25%;
     margin: auto;
- 
 }
 
 .food-master-btn:hover {
@@ -528,12 +541,22 @@ button.ui-button {
 .food-style-content {
     display: inline-block;
 }
+.bottom-container {
+    margin: auto;
+    margin-top: 50px;
+    display: block;
+    width: 90%;
+/*    background: #005075;*/
+    padding: 30px;
+    border-radius: 10px;
+}
 
-.weather-container {
-    /*
-    position: relative;
-    top: -70px;
-*/
+.weather-data-cont {
+    display: block;
+    overflow: auto;
+    height: 264px;
+    width: 100%;
+    margin: 15px 5px 20px 5px;
 }
 
 .weather-data {
@@ -541,8 +564,9 @@ button.ui-button {
     text-align: center;
     margin: 15px;
 }
-.weather-text{
-    margin-right:100px;
+
+.weather-text {
+    margin-right: 100px;
 }
 
 .city-state {
@@ -557,7 +581,7 @@ button.ui-button {
 }
 
 .addAll-plan-btn {
-    background: #005073;
+    background: gray;
     color: white;
     padding: 10px;
     border-radius: 6px;
@@ -565,6 +589,7 @@ button.ui-button {
     display: block;
     width: 25%;
     margin: auto;
+    margin-top: 15px;
 }
 
 #brewery-selection {
@@ -574,7 +599,8 @@ button.ui-button {
     margin: 15px 5px 20px 5px;
 }
 
-.brewery-text, .concert-text {
+.brewery-text,
+.concert-text {
     cursor: pointer;
 }
 
@@ -584,7 +610,8 @@ button.ui-button {
     text-align: justify;
 }
 
-.brewery-data a, .concert-data a {
+.brewery-data a,
+.concert-data a {
     text-decoration: none;
     color: black;
 }
