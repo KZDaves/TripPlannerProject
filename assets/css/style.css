@@ -363,7 +363,8 @@ button.ui-button {
     height: 244px;
     overflow: auto;
     display: inline-block;
-    margin-bottom: 15px;
+    width: 100%;
+    margin: 15px 5px 20px 5px;
 }
 
 .top-container {
@@ -383,7 +384,7 @@ button.ui-button {
 .ticket-master-container {
     width: 34%;
     background: #ded5d5;
-    height: 350px;
+    height: 370px;
     display: inline-block;
     margin-top: 45px;
     margin-right: 50px;
@@ -427,7 +428,7 @@ button.ui-button {
 .resturant-container {
     width: 34%;
     background: #ded5d5;
-    height: 351px;
+    height: 370px;
     margin: auto;
     display: inline-block;
     position: relative;
@@ -541,9 +542,10 @@ button.ui-button {
 .food-style-content {
     display: inline-block;
 }
+
 .bottom-container {
     margin: auto;
-    margin-top: 50px;
+    /*margin-top: 30px;*/
     display: block;
     width: 90%;
 /*    background: #005075;*/

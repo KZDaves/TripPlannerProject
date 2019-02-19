@@ -577,8 +577,8 @@ function fetchFromDBForEP() {
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : February 12, 2019 PST
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : February 18, 2019 PST
- #  REVISION #    : 4
+ #  REVISION DATE : February 19, 2019 PST
+ #  REVISION #    : 5
  #  DESCRIPTION   : populate data for the selected plan
  #  PARAMETERS    : json data and flag number
  #
@@ -604,8 +604,12 @@ function populateBreweryPlan(data) {
 			var sp = $("<span>")
 			sp.attr("class", c1)
 			var a = $("<a>")
-			a.attr("href",data[k]["website_url"])
-			a.attr("target","_blank")
+            var toClick = "No website available for this brewery"
+            if (data[k]["website_url"] != "") {
+    			a.attr("href",data[k]["website_url"])
+    			a.attr("target","_blank")
+                toClick = "Click on the brewery name to see the website on a new page."
+            }
 			var sp1 = $("<span>")
 			sp1.attr("class",c2)
 			sp1.text(data[k][key])
@@ -615,8 +619,7 @@ function populateBreweryPlan(data) {
 			add += data[k]["city"]+", "+data[k]["state"]
 			sp1.attr("title",
 				"<b>Brewery Type:</b> <i>"+ucwords(data[k]["brewery_type"])+"</i><br/>"+
-				"<b>Address: </b><i>"+add+"</i><br/><br/>"+
-				"Click on the brewery name to see the website on a new page."
+				"<b>Address: </b><i>"+add+"</i><br/><br/>"+toClick		
 			)
 			a.append(sp1)
 			sp.append(inp)
@@ -644,8 +647,8 @@ function populateBreweryPlan(data) {
  #  AUTHOR        : Janak Tripathee
  #  DATE          : February 16, 2019 PST
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : February 18, 2019 PST
- #  REVISION #    : 2
+ #  REVISION DATE : February 19, 2019 PST
+ #  REVISION #    : 3
  #  DESCRIPTION   : get ticketmaster data in UserPlanResult page
  #  PARAMETERS    : data, flag
  #
@@ -668,7 +671,7 @@ function getEvents(data, flag) {
                 		<br>"+event._embedded.venues[0]["name"]+", "+event._embedded.venues[0]["city"]["name"]+", "+twoCodes[selState]+"<br>\
                 		<br><br>Click on the event name for more details\
                 	"
-                    $('.concert-data-cont').append('<span class="concert-data">' + '<a href="'+event.url+'" target="_blank"><span class="concert-text" title="'+ti+'" >' + event.name + '</span></a>' + '<input type="checkbox">' + '</span>')
+                    $('.concert-data-cont').append('<span class="concert-data"><a href="'+event.url+'" target="_blank"><input type="checkbox">                  <span class="concert-text" title="'+ti+'" >' + event.name + '</span></a>' +  '</span>')
                     //console.log(event.id)
                 }
 
@@ -755,13 +758,13 @@ function getTime(time) {
  #######################################################################
  #
  #  FUNCTION NAME : getRestaurants
- #  AUTHOR        : K Daves
+ #  AUTHOR        : Kristen Daves
  #  DATE          : February 18, 2019 PST
  #  MODIFIED BY   : 
  #  REVISION DATE : 
  #  REVISION #    : 
  #  DESCRIPTION   : Gets Zomato API information and publishes to UserPlanResults page
- #  PARAMETERS    : 
+ #  PARAMETERS    : none
  #
  #######################################################################
 */
