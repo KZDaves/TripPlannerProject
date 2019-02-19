@@ -34,6 +34,7 @@ var selState = "" // selected state
 var selCity = "" // selected city
 var selSD = "" //selected start date
 var selED = "" // selected end date
+var cityID = "" // numerical city ID for Restraurant API requirements
 
 $(document).ready(function () {
  
@@ -130,10 +131,10 @@ function populateLocation(flag) {
  #  FUNCTION NAME : getInfoFromAPI
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : February 07, 2019 PST
- #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : February 17, 2019 PST
- #  REVISION #    : 3
- #  DESCRIPTION   : submits and fetches info from API
+ #  MODIFIED BY   : K Daves
+ #  REVISION DATE : February 18, 2019 PST
+ #  REVISION #    : 4
+ #  DESCRIPTION   : added API for restaurants
  #  PARAMETERS    : flag number
  #
  #######################################################################
@@ -168,10 +169,18 @@ function getInfoFromAPI(flag) {
             queryURL = "https://api.openweathermap.org/data/2.5/weather?q="+selCity+",US&APPID=f61a88fc8b9c9ad98526c1f405a60125"
             //console.log(queryURL)
         break;
+        case "5":
+            queryURL = "https://developers.zomato.com/api/v2.1/locations?query="+selCity+"%2C%20"+selState
+        break; 
     }
 
     $.ajax({
         url: queryURL,
+        beforeSend: function(request){
+            if(flag=="5"){
+                request.setRequestHeader("user-key", "c837bf84d96c94c2390f43f5f1790825");
+            }
+        }, 
         method: "GET",
         //dataType: "jsonP",
         async: false
@@ -184,6 +193,7 @@ function getInfoFromAPI(flag) {
 	        case "2": func = "populateBreweryPlan(" + data + "," + flag + ");"; break;
 	        case "3": func = "getEvents(" + data + "," + flag + ");"; break;
             case "4": func = "getEvents(" + data + "," + flag + ");"; break;
+            case "5": func = "getCityID(" + data + ")"; break; 
        	}
         //console.log(func)
         eval(func)
@@ -405,10 +415,10 @@ function fetchFromDB(node) {
  #  FUNCTION NAME : initializeButtonsForNewPlan
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : February 10, 2019 PST
- #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : February 17, 2019 PST
- #  REVISION #    : 1
- #  DESCRIPTION   : initializes button when new plan button is clicked
+ #  MODIFIED BY   : K Daves
+ #  REVISION DATE : February 18, 2019 PST
+ #  REVISION #    : 2
+ #  DESCRIPTION   : gets API info for restaurants
  #  PARAMETERS    : none
  #
  #######################################################################
@@ -449,6 +459,7 @@ function initializeButtonsForNewPlan() {
                 getInfoFromAPI("2")
                 getInfoFromAPI("3")
                 getInfoFromAPI("4")
+                getInfoFromAPI("5")
                 $(".addAll-plan-btn").on("click", function () {
                     //getEvents()
                     $("#mainContainer").load("./assets/html/userPlanResult.html", function () {})
@@ -735,3 +746,53 @@ function getTime(time) {
 	return tStr
 
 }
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : getRestaurants
+ #  AUTHOR        : K Daves
+ #  DATE          : February 18, 2019 PST
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : Gets Zomato API information and publishes to UserPlanResults page
+ #  PARAMETERS    : 
+ #
+ #######################################################################
+*/
+
+function getRestaurants(){
+    var queryURL = "https://developers.zomato.com/api/v2.1/location_details?entity_id="+cityID+"&entity_type=city"; 
+    var theKey = "c837bf84d96c94c2390f43f5f1790825"; 
+    $.ajax({
+        url: queryURL,
+        beforeSend: function(request){
+            request.setRequestHeader("user-key", theKey);
+        }, 
+        method: "GET"
+    }).then(function(data){
+        console.log(data);
+    })
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : getCityID
+ #  AUTHOR        : K Daves
+ #  DATE          : February 18, 2019 PST
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : sets cityID var to Zomato API's numerical value for selected city/state pair. 
+ #  PARAMETERS    : 
+ #
+ #######################################################################
+*/
+
+function getCityID(data){
+    cityID = data.location_suggestions[0].city_id;
+    getRestaurants();
+}
+
