@@ -892,7 +892,7 @@ function saveUserSelections(){
     var name = ""; 
     var style = ""; 
     var rating = "";
-    debugger;
+    //debugger;
     if($(".ticketmasterCheck:checkbox:checked").length >0){
         for(var i=0; i<$(".ticketmasterCheck:checkbox:checked").length; i++){
             debugger;
