@@ -35,6 +35,11 @@ var selCity = "" // selected city
 var selSD = "" //selected start date
 var selED = "" // selected end date
 var cityID = "" // numerical city ID for Restraurant API requirements
+var userSelections = {}; 
+var ticketmasterSelections = []; 
+var brewerySelections = []; 
+var restaurantSelections = []; 
+var weather = ""; 
 
 $(document).ready(function () {
  
@@ -416,9 +421,9 @@ function fetchFromDB(node) {
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : February 10, 2019 PST
  #  MODIFIED BY   : K Daves
- #  REVISION DATE : February 18, 2019 PST
- #  REVISION #    : 2
- #  DESCRIPTION   : gets API info for restaurants
+ #  REVISION DATE : February 19, 2019 PST
+ #  REVISION #    : 3
+ #  DESCRIPTION   : dynamically adds user selections to Plan Result page
  #  PARAMETERS    : none
  #
  #######################################################################
@@ -462,7 +467,42 @@ function initializeButtonsForNewPlan() {
                 getInfoFromAPI("5")
                 $(".addAll-plan-btn").on("click", function () {
                     //getEvents()
-                    $("#mainContainer").load("./assets/html/userPlanResult.html", function () {})
+                    saveUserSelections(); 
+                    localStorage.setItem('state', selState); 
+                    localStorage.setItem('city', selCity); 
+                    localStorage.setItem('start', selSD); 
+                    localStorage.setItem('end', selED);
+                    $("#mainContainer").load("./assets/html/userPlanResult.html", function () {
+                    ticketmasterSelections = JSON.parse(localStorage.getItem('tempTM')); 
+                    brewerySelections = JSON.parse(localStorage.getItem('tempBrew'));
+                    restaurantSelections = JSON.parse(localStorage.getItem('tempFood'));
+                    selState = localStorage.getItem('state'); 
+                    selCity = localStorage.getItem('city'); 
+                    selSD = localStorage.getItem('start');
+                    selED = localStorage.getItem('end'); 
+                    $(".result-ticket-data-cont").empty(); 
+                    $(".result-brewery-data-cont").empty(); 
+                    $(".result-restaurant-data-cont").empty(); 
+                    $(".city-name-header").empty(); 
+                    $(".city-dates").empty();  
+                    populateUserSelections(); 
+                    $(".result-confirm-btn").on("click", function(){
+                        database.ref().push({
+                            cityName: selCity, 
+                            state: selState, 
+                            startDate: selSD, 
+                            ticketMaster: ticketmasterSelections, 
+                            breweries: brewerySelections, 
+                            restaurants: restaurantSelections, 
+                            weatherInfo: weather
+                        }); 
+                        alert("Your plan has been successfully saved!"); 
+                       //load index.html page
+                    })
+                    $(".result-cancel-btn").on("click", function(){
+                        //go back to userSelectPlan page
+                    })                        
+                    })
                 })
             })
         }
@@ -600,7 +640,7 @@ function populateBreweryPlan(data) {
 
 		for (var k=0; k < data.length; k++) {
 			var inp = $("<input>")
-			inp.attr("type", "checkbox")
+			inp.attr({"type": "checkbox", "class": "breweryCheck"})
 			var sp = $("<span>")
 			sp.attr("class", c1)
 			var a = $("<a>")
@@ -671,7 +711,7 @@ function getEvents(data, flag) {
                 		<br>"+event._embedded.venues[0]["name"]+", "+event._embedded.venues[0]["city"]["name"]+", "+twoCodes[selState]+"<br>\
                 		<br><br>Click on the event name for more details\
                 	"
-                    $('.concert-data-cont').append('<span class="concert-data"><a href="'+event.url+'" target="_blank"><input type="checkbox">                  <span class="concert-text" title="'+ti+'" >' + event.name + '</span></a>' +  '</span>')
+                    $('.concert-data-cont').append('<span class="concert-data"><a href="'+event.url+'" target="_blank"><input type="checkbox" class="ticketmasterCheck">                  <span class="concert-text" title="'+ti+'" >' + event.name + '</span></a>' +  '</span>')
                     //console.log(event.id)
                 }
 
@@ -786,7 +826,8 @@ function getRestaurants(){
                 var newRestaurant = $("<div class='restaurantItem'>"); 
                 newRestaurant.html(
                     `<div>`+
-                        `<input type="checkbox">`+
+                    `<div>`+
+                        `<input type="checkbox" class="restaurantCheck">`+
                         `<span class="restaurantDetails"`+
                             `title="<b>Address: </b><i>${data.best_rated_restaurant[i].restaurant.location.address}</i>`+
                             `<br><br>Click restaurant name to see their website on a new page.">` +
@@ -794,7 +835,8 @@ function getRestaurants(){
                         `</span`+ 
                      `</div>`+
                      `<div>${data.best_rated_restaurant[i].restaurant.user_rating.aggregate_rating} </div>`+
-                     `<div>${data.best_rated_restaurant[i].restaurant.cuisines}</div>`
+                     `<div>${data.best_rated_restaurant[i].restaurant.cuisines}</div>` +
+                     `</div>`
                     ); 
                 $(".pop-name-container").append(newRestaurant); 
             }
@@ -827,4 +869,92 @@ function getCityID(data){
     cityID = data.location_suggestions[0].city_id;
     getRestaurants();
 }
+
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : saveUserSelections
+ #  AUTHOR        : K Daves
+ #  DATE          : February 19, 2019 PST
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : 
+ #  PARAMETERS    : 
+ #
+ #######################################################################
+*/
+
+function saveUserSelections(){
+    var selections = []; 
+    var foodChoices = {}; 
+    var name = ""; 
+    var style = ""; 
+    var rating = "";
+    debugger;
+    if($(".ticketmasterCheck:checkbox:checked").length >0){
+        for(var i=0; i<$(".ticketmasterCheck:checkbox:checked").length; i++){
+            debugger;
+            selections.push($(".ticketmasterCheck:checkbox:checked")[i].parentElement.children[1].firstChild.data); 
+            debugger;   
+        }
+        localStorage.setItem("tempTM",JSON.stringify(selections)) ; 
+        selections = []; 
+    }
+    if($(".restaurantCheck:checkbox:checked").length >0){
+        for(var i=0; i<$(".restaurantCheck:checkbox:checked").length; i++){
+            var name = $(".restaurantCheck:checkbox:checked")[i].parentElement.children[1].firstChild.text;
+            var rating = $(".restaurantCheck:checkbox:checked")[i].parentElement.children[1].children[1].textContent; 
+            var style = $(".restaurantCheck:checkbox:checked")[i].parentElement.children[1].children[2].textContent
+            foodChoices.restaurantName = name; 
+            foodChoices.rating = rating; 
+            foodChoices.foodStyle = style; 
+            selections.push(foodChoices); 
+            foodChoices = {}; 
+        }
+        localStorage.setItem("tempFood", JSON.stringify(selections));
+        selections = []; 
+    }
+    if($(".breweryCheck:checkbox:checked").length >0){
+        for(var i=0; i<$(".breweryCheck:checkbox:checked").length; i++){
+            selections.push($(".breweryCheck:checkbox:checked")[i].parentElement.children[1].text); 
+        }
+        localStorage.setItem("tempBrew", JSON.stringify(selections));
+        selections = [];
+    }
+    if($(".weatherCheck:checkbox:checked")){
+        
+    }
+}
+    
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : populateUserSelections
+ #  AUTHOR        : K Daves
+ #  DATE          : February 19, 2019 PST
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : 
+ #  PARAMETERS    : 
+ #
+ #######################################################################
+*/
+function populateUserSelections(){
+
+    for(var i=0; i<ticketmasterSelections.length; i++){
+        $(".result-ticket-data-cont").append(ticketmasterSelections[i] + '<br><br>');
+    }
+    for(var i=0; i<brewerySelections.length; i++){
+        $(".result-brewery-data-cont").append(brewerySelections[i] + '<br><br>');
+    }
+    for(var i=0; i<restaurantSelections.length; i++){
+        $(".result-restaurant-data-cont").append(`<div><div> ${restaurantSelections[i].restaurantName} </div><div> ${restaurantSelections[i].rating}</div><div>${restaurantSelections[i].foodStyle}</div></div>`);
+    }
+    $(".city-name-header").html(selCity +", "+ selState); 
+    $(".city-dates").html(selSD + " - " + selED); 
+}
+
 
