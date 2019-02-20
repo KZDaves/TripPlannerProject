@@ -432,7 +432,7 @@ button.ui-button {
     margin: auto;
     display: inline-block;
     position: relative;
-    top: 4px;
+    top: -18px;
     border-radius: 10px 10px 0px 0px;
 }
 
