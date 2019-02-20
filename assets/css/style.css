@@ -627,8 +627,8 @@ button.ui-button {
 /*--------------------------------UserPlanResult html CSS Starts Here--------------------------------*/
 
 .user-plan-result-container {
-    width: 50%;
-    height: 520px;
+    width: 80%;
+    height: 546px;
     background: gray;
     margin: auto;
     margin-top: 50px;
@@ -666,9 +666,10 @@ button.ui-button {
 
 .result-ticket-container,
 .result-resturant-container,
-.result-weather-container {
+.result-weather-container,
+.result-brewery-container{
     display: inline-block;
-    width: 30%;
+    width: 20%;
     height: 280px;
     background: #c9c5c5;
     margin: 10px;

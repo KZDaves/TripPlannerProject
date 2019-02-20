@@ -895,9 +895,9 @@ function saveUserSelections(){
     //debugger;
     if($(".ticketmasterCheck:checkbox:checked").length >0){
         for(var i=0; i<$(".ticketmasterCheck:checkbox:checked").length; i++){
-            debugger;
+            //debugger;
             selections.push($(".ticketmasterCheck:checkbox:checked")[i].parentElement.children[1].firstChild.data); 
-            debugger;   
+            //debugger;   
         }
         localStorage.setItem("tempTM",JSON.stringify(selections)) ; 
         selections = []; 
