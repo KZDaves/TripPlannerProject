@@ -479,7 +479,12 @@ function initializeButtonsForNewPlan() {
                     selState = localStorage.getItem('state'); 
                     selCity = localStorage.getItem('city'); 
                     selSD = localStorage.getItem('start');
-                    selED = localStorage.getItem('end');  
+                    selED = localStorage.getItem('end'); 
+                    $(".result-ticket-data-cont").empty(); 
+                    $(".result-brewery-data-cont").empty(); 
+                    $(".result-restaurant-data-cont").empty(); 
+                    $(".city-name-header").empty(); 
+                    $(".city-dates").empty();  
                     populateUserSelections(); 
                     $(".result-confirm-btn").on("click", function(){
                         database.ref().push({
@@ -612,8 +617,8 @@ function fetchFromDBForEP() {
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : February 12, 2019 PST
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : February 18, 2019 PST
- #  REVISION #    : 4
+ #  REVISION DATE : February 19, 2019 PST
+ #  REVISION #    : 5
  #  DESCRIPTION   : populate data for the selected plan
  #  PARAMETERS    : json data and flag number
  #
@@ -639,8 +644,12 @@ function populateBreweryPlan(data) {
 			var sp = $("<span>")
 			sp.attr("class", c1)
 			var a = $("<a>")
-			a.attr("href",data[k]["website_url"])
-			a.attr("target","_blank")
+            var toClick = "No website available for this brewery"
+            if (data[k]["website_url"] != "") {
+    			a.attr("href",data[k]["website_url"])
+    			a.attr("target","_blank")
+                toClick = "Click on the brewery name to see the website on a new page."
+            }
 			var sp1 = $("<span>")
 			sp1.attr("class",c2)
 			sp1.text(data[k][key])
@@ -650,8 +659,7 @@ function populateBreweryPlan(data) {
 			add += data[k]["city"]+", "+data[k]["state"]
 			sp1.attr("title",
 				"<b>Brewery Type:</b> <i>"+ucwords(data[k]["brewery_type"])+"</i><br/>"+
-				"<b>Address: </b><i>"+add+"</i><br/><br/>"+
-				"Click on the brewery name to see the website on a new page."
+				"<b>Address: </b><i>"+add+"</i><br/><br/>"+toClick		
 			)
 			a.append(sp1)
 			sp.append(inp)
@@ -679,8 +687,8 @@ function populateBreweryPlan(data) {
  #  AUTHOR        : Janak Tripathee
  #  DATE          : February 16, 2019 PST
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : February 18, 2019 PST
- #  REVISION #    : 2
+ #  REVISION DATE : February 19, 2019 PST
+ #  REVISION #    : 3
  #  DESCRIPTION   : get ticketmaster data in UserPlanResult page
  #  PARAMETERS    : data, flag
  #
@@ -703,7 +711,7 @@ function getEvents(data, flag) {
                 		<br>"+event._embedded.venues[0]["name"]+", "+event._embedded.venues[0]["city"]["name"]+", "+twoCodes[selState]+"<br>\
                 		<br><br>Click on the event name for more details\
                 	"
-                    $('.concert-data-cont').append('<span class="concert-data">' + '<a href="'+event.url+'" target="_blank"><span class="concert-text" title="'+ti+'" >' + event.name + '</span></a>' + '<input type="checkbox" class="ticketmasterCheck">' + '</span>')
+                    $('.concert-data-cont').append('<span class="concert-data"><a href="'+event.url+'" target="_blank"><input type="checkbox" class="ticketmasterCheck">                  <span class="concert-text" title="'+ti+'" >' + event.name + '</span></a>' +  '</span>')
                     //console.log(event.id)
                 }
 
@@ -790,13 +798,13 @@ function getTime(time) {
  #######################################################################
  #
  #  FUNCTION NAME : getRestaurants
- #  AUTHOR        : K Daves
+ #  AUTHOR        : Kristen Daves
  #  DATE          : February 18, 2019 PST
  #  MODIFIED BY   : 
  #  REVISION DATE : 
  #  REVISION #    : 
  #  DESCRIPTION   : Gets Zomato API information and publishes to UserPlanResults page
- #  PARAMETERS    : 
+ #  PARAMETERS    : none
  #
  #######################################################################
 */
@@ -884,16 +892,18 @@ function saveUserSelections(){
     var name = ""; 
     var style = ""; 
     var rating = "";
+    debugger;
     if($(".ticketmasterCheck:checkbox:checked").length >0){
         for(var i=0; i<$(".ticketmasterCheck:checkbox:checked").length; i++){
-            selections.push($(".ticketmasterCheck:checkbox:checked")[i].parentElement.children[0].text);   
+            debugger;
+            selections.push($(".ticketmasterCheck:checkbox:checked")[i].parentElement.children[1].firstChild.data); 
+            debugger;   
         }
         localStorage.setItem("tempTM",JSON.stringify(selections)) ; 
         selections = []; 
     }
     if($(".restaurantCheck:checkbox:checked").length >0){
         for(var i=0; i<$(".restaurantCheck:checkbox:checked").length; i++){
-            debugger;
             var name = $(".restaurantCheck:checkbox:checked")[i].parentElement.children[1].firstChild.text;
             var rating = $(".restaurantCheck:checkbox:checked")[i].parentElement.children[1].children[1].textContent; 
             var style = $(".restaurantCheck:checkbox:checked")[i].parentElement.children[1].children[2].textContent
@@ -914,7 +924,7 @@ function saveUserSelections(){
         selections = [];
     }
     if($(".weatherCheck:checkbox:checked")){
-        debugger; 
+        
     }
 }
     
@@ -933,6 +943,7 @@ function saveUserSelections(){
  #######################################################################
 */
 function populateUserSelections(){
+
     for(var i=0; i<ticketmasterSelections.length; i++){
         $(".result-ticket-data-cont").append(ticketmasterSelections[i] + '<br><br>');
     }
