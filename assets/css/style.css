@@ -402,7 +402,7 @@ button.ui-button {
 
 .weather-container {
     position: relative;
-    top: -4px;
+    top: 20px;
     width: 34%;
     background: #ded5d5;
     height: 370px;
@@ -431,8 +431,10 @@ button.ui-button {
     height: 370px;
     margin: auto;
     display: inline-block;
+/*
     position: relative;
     top: -18px;
+*/
     border-radius: 10px 10px 0px 0px;
 }
 
@@ -625,8 +627,8 @@ button.ui-button {
 /*--------------------------------UserPlanResult html CSS Starts Here--------------------------------*/
 
 .user-plan-result-container {
-    width: 50%;
-    height: 520px;
+    width: 80%;
+    height: 546px;
     background: gray;
     margin: auto;
     margin-top: 50px;
@@ -664,9 +666,10 @@ button.ui-button {
 
 .result-ticket-container,
 .result-resturant-container,
-.result-weather-container {
+.result-weather-container,
+.result-brewery-container{
     display: inline-block;
-    width: 30%;
+    width: 20%;
     height: 280px;
     background: #c9c5c5;
     margin: 10px;
