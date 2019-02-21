@@ -372,8 +372,8 @@ function alertMsg(type, msg, todo) {
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : February 09, 2019 PST
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : February 10, 2019 PST
- #  REVISION #    : 1
+ #  REVISION DATE : February 21, 2019 PST
+ #  REVISION #    : 3
  #  DESCRIPTION   : fetches plan details from database
  #  PARAMETERS    : node or id
  #
@@ -385,31 +385,39 @@ function fetchFromDB(node) {
     database.ref(node).once("value", function (ss) {
         //console.log(ss.val())
         $("#planName").text(ss.val().planName)
-        $("#planDate").text(ss.val().startDate)
+        $("#planDate").text(ss.val().startDate+" - "+ss.val().endDate)
         $("#planLocation").text(ss.val().cityName + ", " + ss.val().state)
-            //EVENTS
+        //EVENTS
         var div = $("<div>")
         div.attr("class", "infoClass")
-        for (var j = 0; j < ss.val().ticketMaster.length; j++) {
-            div.append(" - " + ss.val().ticketMaster[j] + "<br>")
+        if (ss.val().ticketMaster != undefined || ss.val().ticketMaster != "") {
+            for (var j = 0; j < ss.val().ticketMaster.length; j++) {
+                div.append(" - " + ss.val().ticketMaster[j] + "<br>")
+            }
         }
         $("#eventInfo").append(div)
         var div2 = $("<div>")
         div2.attr("class", "infoClass")
-        for (var j = 0; j < ss.val().breweries.length; j++) {
-            div2.append(" - " + ss.val().breweries[j] + "<br>")
+        if (ss.val().breweries != undefined || ss.val().breweries != "") {
+            for (var j = 0; j < ss.val().breweries.length; j++) {
+                div2.append(" - " + ss.val().breweries[j] + "<br>")
+            }
         }
         $("#breweryInfo").append(div2)
         var div3 = $("<div>")
         div3.attr("class", "infoClass")
-        for (var j = 0; j < ss.val().restaurants.length; j++) {
-            div3.append(" - " + ss.val().restaurants[j].restaurantName + " " + ss.val().restaurants[j].rating + " " + ss.val().restaurants[j].foodStyle + "<br>")
+        if (ss.val().restaurants != undefined || ss.val().restaurants != "") {
+            for (var j = 0; j < ss.val().restaurants.length; j++) {
+                div3.append(" - " + ss.val().restaurants[j].restaurantName + " " + ss.val().restaurants[j].rating + " " + ss.val().restaurants[j].foodStyle + "<br>")
+            }
         }
         $("#restaurantInfo").append(div3)
         var div4 = $("<div>")
         div4.attr("class", "infoClass")
-        div4.append(" - " + ss.val().weatherInfo + "<br>")
-        $("#weatherInfo").append(div4)
+        if (ss.val().weatherInfo != undefined || ss.val().weatherInfo != "") {
+            div4.append(" - " + ss.val().weatherInfo + "<br>")
+            $("#weatherInfo").append(div4)
+        }
     })
 
 }
@@ -420,10 +428,10 @@ function fetchFromDB(node) {
  #  FUNCTION NAME : initializeButtonsForNewPlan
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : February 10, 2019 PST
- #  MODIFIED BY   : K Daves
+ #  MODIFIED BY   : Maricel Louise Sumulong
  #  REVISION DATE : February 19, 2019 PST
- #  REVISION #    : 3
- #  DESCRIPTION   : dynamically adds user selections to Plan Result page
+ #  REVISION #    : 4
+ #  DESCRIPTION   : initializes button when new plan button is clicked
  #  PARAMETERS    : none
  #
  #######################################################################
@@ -458,6 +466,9 @@ function initializeButtonsForNewPlan() {
         var isOK = validateInfo()
         if (isOK == 1) {
             $("#mainContainer").load("./assets/html/userSelectPlan.html", function () {
+                //auto-generate-plan-name
+                var d = new Date()
+                $("#plan-name").val(d.getMilliseconds()+"-"+selCity+"-"+twoCodes[selState])
                 $(".city-state").text(selCity + ", " + selState)
                 if (selSD != "" && selED != "") 
                 	$(".cs-date").text(selSD + " - " + selED)
@@ -468,40 +479,46 @@ function initializeButtonsForNewPlan() {
                 $(".addAll-plan-btn").on("click", function () {
                     //getEvents()
                     saveUserSelections(); 
-                    localStorage.setItem('state', selState); 
+                    /*localStorage.setItem('state', selState); 
                     localStorage.setItem('city', selCity); 
                     localStorage.setItem('start', selSD); 
-                    localStorage.setItem('end', selED);
+                    localStorage.setItem('end', selED);*/
+                    var pn = $("#plan-name").val();
                     $("#mainContainer").load("./assets/html/userPlanResult.html", function () {
-                    ticketmasterSelections = JSON.parse(localStorage.getItem('tempTM')); 
-                    brewerySelections = JSON.parse(localStorage.getItem('tempBrew'));
-                    restaurantSelections = JSON.parse(localStorage.getItem('tempFood'));
-                    selState = localStorage.getItem('state'); 
-                    selCity = localStorage.getItem('city'); 
-                    selSD = localStorage.getItem('start');
-                    selED = localStorage.getItem('end'); 
-                    $(".result-ticket-data-cont").empty(); 
-                    $(".result-brewery-data-cont").empty(); 
-                    $(".result-restaurant-data-cont").empty(); 
-                    $(".city-name-header").empty(); 
-                    $(".city-dates").empty();  
-                    populateUserSelections(); 
-                    $(".result-confirm-btn").on("click", function(){
-                        database.ref().push({
-                            cityName: selCity, 
-                            state: selState, 
-                            startDate: selSD, 
-                            ticketMaster: ticketmasterSelections, 
-                            breweries: brewerySelections, 
-                            restaurants: restaurantSelections, 
-                            weatherInfo: weather
-                        }); 
-                        alert("Your plan has been successfully saved!"); 
-                       //load index.html page
-                    })
-                    $(".result-cancel-btn").on("click", function(){
-                        //go back to userSelectPlan page
-                    })                        
+                        /*ticketmasterSelections = JSON.parse(localStorage.getItem('tempTM')); 
+                        console.log("TM: "+ticketmasterSelections)
+                        brewerySelections = JSON.parse(localStorage.getItem('tempBrew'));
+                        restaurantSelections = JSON.parse(localStorage.getItem('tempFood'));
+                        selState = localStorage.getItem('state'); 
+                        selCity = localStorage.getItem('city'); 
+                        selSD = localStorage.getItem('start');
+                        selED = localStorage.getItem('end');*/
+                        $(".result-ticket-data-cont").empty(); 
+                        $(".result-brewery-data-cont").empty(); 
+                        $(".result-restaurant-data-cont").empty(); 
+                        $(".city-name-header").empty(); 
+                        $(".city-dates").empty();  
+                        populateUserSelections(); 
+                        $(".result-confirm-btn").on("click", function(){
+                            database.ref().push({
+                                cityName: selCity, 
+                                state: selState, 
+                                startDate: selSD,
+                                endDate: selED, 
+                                ticketMaster: ticketmasterSelections, 
+                                breweries: brewerySelections, 
+                                restaurants: restaurantSelections, 
+                                weatherInfo: weather,
+                                planName: pn
+                            }); 
+                            
+                            $("body").empty().load("index.html", function () {
+                                alertMsg("prompt","Your plan has been successfully!")
+                            })
+                        })
+                        $(".result-cancel-btn").on("click", function(){
+                            //go back to userSelectPlan page
+                        })                        
                     })
                 })
             })
@@ -538,14 +555,14 @@ function showInformation(node) {
         },
         buttons: {
             "Edit": function () {
-                $("#planContainer").dialog("destroy");
                 $(this).empty().dialog("close");
-                eval(todo);
+                $("#planContainer").dialog("destroy");
+                //eval(todo);
             },
             "Close": function () {
-                $("#planContainer").dialog("destroy");
                 $(this).empty().dialog("close");
-                eval(todo);
+                $("#planContainer").dialog("destroy");
+                //eval(todo);
             }
         }
     });
@@ -877,16 +894,17 @@ function getCityID(data){
  #  FUNCTION NAME : saveUserSelections
  #  AUTHOR        : K Daves
  #  DATE          : February 19, 2019 PST
- #  MODIFIED BY   : 
- #  REVISION DATE : 
- #  REVISION #    : 
- #  DESCRIPTION   : 
- #  PARAMETERS    : 
+ #  MODIFIED BY   : Maricel Louise Sumulong
+ #  REVISION DATE : February 19, 2019 PST
+ #  REVISION #    : 1
+ #  DESCRIPTION   : save user selection on the global variables
+ #  PARAMETERS    : none
  #
  #######################################################################
 */
 
 function saveUserSelections(){
+
     var selections = []; 
     var foodChoices = {}; 
     var name = ""; 
@@ -899,9 +917,11 @@ function saveUserSelections(){
             selections.push($(".ticketmasterCheck:checkbox:checked")[i].parentElement.children[1].firstChild.data); 
             //debugger;   
         }
-        localStorage.setItem("tempTM",JSON.stringify(selections)) ; 
+        //localStorage.setItem("tempTM",JSON.stringify(selections)) ; 
+        ticketmasterSelections = selections;
         selections = []; 
-    }
+    } 
+
     if($(".restaurantCheck:checkbox:checked").length >0){
         for(var i=0; i<$(".restaurantCheck:checkbox:checked").length; i++){
             var name = $(".restaurantCheck:checkbox:checked")[i].parentElement.children[1].firstChild.text;
@@ -913,14 +933,17 @@ function saveUserSelections(){
             selections.push(foodChoices); 
             foodChoices = {}; 
         }
-        localStorage.setItem("tempFood", JSON.stringify(selections));
+        //localStorage.setItem("tempFood", JSON.stringify(selections));
+        restaurantSelections = selections;
         selections = []; 
     }
+
     if($(".breweryCheck:checkbox:checked").length >0){
         for(var i=0; i<$(".breweryCheck:checkbox:checked").length; i++){
             selections.push($(".breweryCheck:checkbox:checked")[i].parentElement.children[1].text); 
         }
-        localStorage.setItem("tempBrew", JSON.stringify(selections));
+        //localStorage.setItem("tempBrew", JSON.stringify(selections));
+        brewerySelections = selections;
         selections = [];
     }
     if($(".weatherCheck:checkbox:checked")){
@@ -934,25 +957,35 @@ function saveUserSelections(){
  #  FUNCTION NAME : populateUserSelections
  #  AUTHOR        : K Daves
  #  DATE          : February 19, 2019 PST
- #  MODIFIED BY   : 
- #  REVISION DATE : 
- #  REVISION #    : 
- #  DESCRIPTION   : 
- #  PARAMETERS    : 
+ #  MODIFIED BY   : Maricel Louise Sumulong
+ #  REVISION DATE : February 19, 2019 PST
+ #  REVISION #    : 1
+ #  DESCRIPTION   : populates the user selection in the result page
+ #  PARAMETERS    : none
  #
  #######################################################################
 */
+
 function populateUserSelections(){
 
-    for(var i=0; i<ticketmasterSelections.length; i++){
-        $(".result-ticket-data-cont").append(ticketmasterSelections[i] + '<br><br>');
+    if (ticketmasterSelections.length != 0) {
+        for(var i=0; i<ticketmasterSelections.length; i++){
+            $(".result-ticket-data-cont").append(ticketmasterSelections[i] + '<br><br>');
+        }
     }
-    for(var i=0; i<brewerySelections.length; i++){
-        $(".result-brewery-data-cont").append(brewerySelections[i] + '<br><br>');
+
+    if (brewerySelections.length != 0) {
+        for(var i=0; i<brewerySelections.length; i++){
+            $(".result-brewery-data-cont").append(brewerySelections[i] + '<br><br>');
+        }
     }
-    for(var i=0; i<restaurantSelections.length; i++){
-        $(".result-restaurant-data-cont").append(`<div><div> ${restaurantSelections[i].restaurantName} </div><div> ${restaurantSelections[i].rating}</div><div>${restaurantSelections[i].foodStyle}</div></div>`);
+
+    if (restaurantSelections.length != 0) {
+        for(var i=0; i<restaurantSelections.length; i++){
+            $(".result-restaurant-data-cont").append(`<div><div> ${restaurantSelections[i].restaurantName} </div><div> ${restaurantSelections[i].rating}</div><div>${restaurantSelections[i].foodStyle}</div></div>`);
+        }
     }
+
     $(".city-name-header").html(selCity +", "+ selState); 
     $(".city-dates").html(selSD + " - " + selED); 
 }
