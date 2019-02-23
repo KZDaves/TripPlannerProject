@@ -83,6 +83,18 @@ $(document).ready(function () {
         })
     })
 
+    $("#loading-container").dialog({
+        closeOnEscape: false,
+        open: function(event, ui) {
+             $(".ui-dialog-titlebar-close", ui.dialog).hide();
+        },
+        autoOpen: false,
+        height: 160,
+        width: 300,
+        resizable: false,
+        modal: true
+    });
+
 })
 
 /*
@@ -165,7 +177,7 @@ function getInfoFromAPI(flag) {
         case "3":
         	if (selSD != "" && selED != "") {
         		queryURL = 'https://app.ticketmaster.com/discovery/v2/events.json?city='+selCity+'&stateCode='+twoCodes[selState]+'&apikey=EXGXKSEnRzDBbVr3BJ2nvN2cpjnl8ZUO'+"&startDateTime="+moment(selSD).format('YYYY-MM-DDTHH:mm:ssZ')+"&endDateTime="+ moment(selED).format('YYYY-MM-DDTHH:mm:ssZ')+"&sort=date,asc";
-        		console.log(queryURL) 
+        		//console.log(queryURL) 
     		} else {
     			queryURL = 'https://app.ticketmaster.com/discovery/v2/events.json?city='+selCity+'&stateCode='+twoCodes[selState]+'&apikey=EXGXKSEnRzDBbVr3BJ2nvN2cpjnl8ZUO'
     		  }
@@ -350,13 +362,13 @@ function alertMsg(type, msg, todo) {
 	            },
 	            buttons: {
 	                "Yes": function () {
+                        $(this).dialog("close");
 	                    $("#msg").dialog("destroy");
-	                    $(this).dialog("close");
 	                    eval(todo);
 	                },
 	                "No": function () {
-	                    $("#msg").dialog("destroy");
-	                    $(this).dialog("close");
+                        $(this).dialog("close");
+	                    $("#msg").dialog("destroy");	                    
 	                }
 	            }
 	        });
@@ -429,8 +441,8 @@ function fetchFromDB(node) {
  #  AUTHOR        : Maricel Louise Sumulong
  #  DATE          : February 10, 2019 PST
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : February 19, 2019 PST
- #  REVISION #    : 4
+ #  REVISION DATE : February 22, 2019 PST
+ #  REVISION #    : 5
  #  DESCRIPTION   : initializes button when new plan button is clicked
  #  PARAMETERS    : none
  #
@@ -465,6 +477,7 @@ function initializeButtonsForNewPlan() {
     $("#searchBtn").on("click", function () {
         var isOK = validateInfo()
         if (isOK == 1) {
+            $("#loading-container").dialog("open")
             $("#mainContainer").load("./assets/html/userSelectPlan.html", function () {
                 //auto-generate-plan-name
                 var d = new Date()
@@ -476,50 +489,9 @@ function initializeButtonsForNewPlan() {
                 getInfoFromAPI("3")
                 getInfoFromAPI("4")
                 getInfoFromAPI("5")
+                $("#loading-container").dialog("close")
                 $(".addAll-plan-btn").on("click", function () {
-                    //getEvents()
-                    saveUserSelections(); 
-                    /*localStorage.setItem('state', selState); 
-                    localStorage.setItem('city', selCity); 
-                    localStorage.setItem('start', selSD); 
-                    localStorage.setItem('end', selED);*/
-                    var pn = $("#plan-name").val();
-                    $("#mainContainer").load("./assets/html/userPlanResult.html", function () {
-                        /*ticketmasterSelections = JSON.parse(localStorage.getItem('tempTM')); 
-                        console.log("TM: "+ticketmasterSelections)
-                        brewerySelections = JSON.parse(localStorage.getItem('tempBrew'));
-                        restaurantSelections = JSON.parse(localStorage.getItem('tempFood'));
-                        selState = localStorage.getItem('state'); 
-                        selCity = localStorage.getItem('city'); 
-                        selSD = localStorage.getItem('start');
-                        selED = localStorage.getItem('end');*/
-                        $(".result-ticket-data-cont").empty(); 
-                        $(".result-brewery-data-cont").empty(); 
-                        $(".result-restaurant-data-cont").empty(); 
-                        $(".city-name-header").empty(); 
-                        $(".city-dates").empty();  
-                        populateUserSelections(); 
-                        $(".result-confirm-btn").on("click", function(){
-                            database.ref().push({
-                                cityName: selCity, 
-                                state: selState, 
-                                startDate: selSD,
-                                endDate: selED, 
-                                ticketMaster: ticketmasterSelections, 
-                                breweries: brewerySelections, 
-                                restaurants: restaurantSelections, 
-                                weatherInfo: weather,
-                                planName: pn
-                            }); 
-                            
-                            $("body").empty().load("index.html", function () {
-                                alertMsg("prompt","Your plan has been successfully!")
-                            })
-                        })
-                        $(".result-cancel-btn").on("click", function(){
-                            //go back to userSelectPlan page
-                        })                        
-                    })
+                    showPlanPreview()
                 })
             })
         }
@@ -600,11 +572,11 @@ function ucwords(str) {
  #######################################################################
  #
  #  FUNCTION NAME : fetchFromDBForEP
- #  AUTHOR        : Maricel Louise Sumulong
- #  DATE          : February 12, 2019 PST
- #  MODIFIED BY   : 
- #  REVISION DATE : 
- #  REVISION #    : 
+ #  AUTHOR        : Kristen Daves
+ #  DATE          : 
+ #  MODIFIED BY   : Maricel Louise Sumulong
+ #  REVISION DATE : February 22, 2019 PST
+ #  REVISION #    : 2
  #  DESCRIPTION   : fetches db information for Existing Plan page
  #  PARAMETERS    : none
  #
@@ -621,6 +593,12 @@ function fetchFromDBForEP() {
             var s = childsnapshot.key
             button.attr("onclick", "showInformation('" + s + "')")
             button.html(`${childsnapshot.val().planName} <br><br> ${childsnapshot.val().cityName}, ${childsnapshot.val().state}`);
+            var b2 = $("<button>");
+            b2.text("Remove")
+            b2.attr("onclick","event.stopPropagation();deleteEvent('" + s + "')")
+            b2.attr("class","delete-event-button")
+            button.append("<br/><br/>")
+            button.append(b2)
             $("#existingPlans").append(button);
         })
     });
@@ -958,15 +936,15 @@ function saveUserSelections(){
  #  AUTHOR        : K Daves
  #  DATE          : February 19, 2019 PST
  #  MODIFIED BY   : Maricel Louise Sumulong
- #  REVISION DATE : February 19, 2019 PST
- #  REVISION #    : 1
+ #  REVISION DATE : February 22, 2019 PST
+ #  REVISION #    : 2
  #  DESCRIPTION   : populates the user selection in the result page
  #  PARAMETERS    : none
  #
  #######################################################################
 */
 
-function populateUserSelections(){
+function populateUserSelections() {
 
     if (ticketmasterSelections.length != 0) {
         for(var i=0; i<ticketmasterSelections.length; i++){
@@ -986,8 +964,103 @@ function populateUserSelections(){
         }
     }
 
+    $(".plan-name-header").append($("#plan-name").val())
     $(".city-name-header").html(selCity +", "+ selState); 
     $(".city-dates").html(selSD + " - " + selED); 
+
 }
 
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : showPlanPreview
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : February 22, 2019 PST
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : shows a preview of users selected plan
+ #  PARAMETERS    : none
+ #
+ #######################################################################
+*/
 
+function showPlanPreview() {
+
+    $("#planContainer").dialog({
+        // height: "auto",
+        width: "1200px",
+        resizable: false,
+        modal: true,
+        closeOnEscape: false,
+        open: function (event, ui) {
+            $(".ui-dialog-titlebar-close").hide();
+            $(".ui-dialog :button").blur();
+        },
+        buttons: {
+            "Confirm": function () {
+                database.ref().push({
+                    cityName: selCity, 
+                    state: selState, 
+                    startDate: selSD,
+                    endDate: selED, 
+                    ticketMaster: ticketmasterSelections, 
+                    breweries: brewerySelections, 
+                    restaurants: restaurantSelections, 
+                    weatherInfo: weather,
+                    planName: pn
+                }); 
+                $(this).empty().dialog("close");
+                $("#planContainer").dialog("destroy");
+                //eval(todo);
+                $("body").empty().load("index.html", function () {
+                    alertMsg("prompt","Your plan has been added successfully!")
+                })
+            },
+            "Cancel": function () {
+                ticketmasterSelections = []
+                brewerySelections = []
+                restaurantSelections = []
+                $(this).empty().dialog("close");
+                $("#planContainer").dialog("destroy");
+                //eval(todo);
+            }
+        }
+    });
+
+    saveUserSelections(); 
+    var pn = $("#plan-name").val();
+
+    $("#planContainer").dialog("open").load("./assets/html/userPlanResult.html", function () {
+        $(".result-ticket-data-cont").empty(); 
+        $(".result-brewery-data-cont").empty(); 
+        $(".result-restaurant-data-cont").empty(); 
+        $(".city-name-header").empty(); 
+        $(".city-dates").empty();  
+        $(".plan-name-header").empty();
+        populateUserSelections(); 
+  
+    })
+
+}
+
+/*
+ #######################################################################
+ #
+ #  FUNCTION NAME : deleteEvent
+ #  AUTHOR        : Maricel Louise Sumulong
+ #  DATE          : February 22, 2019 PST
+ #  MODIFIED BY   : 
+ #  REVISION DATE : 
+ #  REVISION #    : 
+ #  DESCRIPTION   : deletes events from firebase
+ #  PARAMETERS    : node
+ #
+ #######################################################################
+*/
+
+function deleteEvent(node) {
+
+    alertMsg("confirm","Are you sure you want to delete this event?","database.ref('"+node+"').remove();fetchFromDBForEP();")
+
+}
