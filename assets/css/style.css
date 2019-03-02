@@ -75,6 +75,7 @@ html {
     height: 40px;
 }
 
+
 /* CITY AND STATE PAGE - START */
 
 #cities,
@@ -347,6 +348,7 @@ button.ui-button {
     /*margin: 40px 0 10px 0;*/
 }
 
+
 /*Existing Plans Page - END*/
 
 
@@ -418,7 +420,7 @@ button.ui-button {
 .top-container {
     display: block;
     width: 90%;
-/*    background: #005075;*/
+    /*    background: #005075;*/
     margin: auto;
     height: 450px;
     border-radius: 10px;
@@ -479,7 +481,7 @@ button.ui-button {
     height: 370px;
     margin: auto;
     display: inline-block;
-/*
+    /*
     position: relative;
     top: -18px;
 */
@@ -487,13 +489,28 @@ button.ui-button {
 }
 
 .resturant-name-container {
-    width: 30%;
+    width: 100%;
     height: 263px;
     display: inline-block;
 }
 
 .resturant-name-header {
     text-align: center;
+    display: inline-block;
+    width: 100%;
+    padding: 10px;
+}
+
+.rest-name-co {
+    display: inline-block;
+    width: 22%;
+    text-align: center;
+}
+
+.data-newRestdata {
+    display: inline-block;
+    width: 100%;
+    line-height: 30px;
 }
 
 .resturant-header {
@@ -502,6 +519,12 @@ button.ui-button {
     font-size: 20px;
     text-align: center;
     border-radius: 10px 10px 0px 0px;
+}
+
+.restaurantDetails {
+    width: 90%;
+    display: inline-block;
+    text-align: left;
 }
 
 .pop-name-container {
@@ -598,7 +621,7 @@ button.ui-button {
     /*margin-top: 30px;*/
     display: block;
     width: 90%;
-/*    background: #005075;*/
+    /*    background: #005075;*/
     padding: 30px;
     border-radius: 10px;
 }
@@ -627,7 +650,8 @@ button.ui-button {
     font-family: "AutumnInNovember";
 }
 
-.cs-date, .city-plan-name {
+.cs-date,
+.city-plan-name {
     font-size: 20px;
     color: white;
 }
@@ -673,6 +697,7 @@ button.ui-button {
     border-radius: 2px;
     font-family: 'Georgia', Times, Times New Roman, serif;
 }
+
 
 /*--------------------------------PlanDetails html CSS ends Here--------------------------------*/
 
@@ -722,7 +747,7 @@ button.ui-button {
 .result-ticket-container,
 .result-resturant-container,
 .result-weather-container,
-.result-brewery-container{
+.result-brewery-container {
     display: inline-block;
     width: 20%;
     height: 280px;
@@ -767,5 +792,6 @@ button.ui-button {
     top: -58px;
     /*    margin-top: 47px;*/
 }
+
 
 /*--------------------------------UserPlanResult html CSS Ends Here--------------------------------*/

@@ -820,18 +820,18 @@ function getRestaurants(){
             for(var i=0; i<data.best_rated_restaurant.length; i++){
                 var newRestaurant = $("<div class='restaurantItem'>"); 
                 newRestaurant.html(
-                    `<div>`+
-                    `<div>`+
+                    `<span>`+
+                    `<span class="data-newRestdata">`+
                         `<input type="checkbox" class="restaurantCheck">`+
                         `<span class="restaurantDetails"`+
-                            `title="<b>Address: </b><i>${data.best_rated_restaurant[i].restaurant.location.address}</i>`+
+                            `title="<b>Address: </b><i class='data-best-test'>${data.best_rated_restaurant[i].restaurant.location.address}</i>`+
                             `<br><br>Click restaurant name to see their website on a new page.">` +
                             `<a href="${data.best_rated_restaurant[i].restaurant.url}" target="_blank">${data.best_rated_restaurant[i].restaurant.name}</a>`+
                         `</span`+ 
-                     `</div>`+
-                     `<div>${data.best_rated_restaurant[i].restaurant.user_rating.aggregate_rating} </div>`+
-                     `<div>${data.best_rated_restaurant[i].restaurant.cuisines}</div>` +
-                     `</div>`
+                     `</span>`+
+                     `<span>${data.best_rated_restaurant[i].restaurant.user_rating.aggregate_rating} </span>`+
+                     `<span>${data.best_rated_restaurant[i].restaurant.cuisines}</span>` +
+                     `</span>`
                     ); 
                 $(".pop-name-container").append(newRestaurant); 
             }
