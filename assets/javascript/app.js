@@ -960,7 +960,7 @@ function populateUserSelections() {
 
     if (restaurantSelections.length != 0) {
         for(var i=0; i<restaurantSelections.length; i++){
-            $(".result-restaurant-data-cont").append(`<div><div> ${restaurantSelections[i].restaurantName} </div><div> ${restaurantSelections[i].rating}</div><div>${restaurantSelections[i].foodStyle}</div></div>`);
+            $(".result-restaurant-data-cont").append(`<div style="color:black"><div> ${restaurantSelections[i].restaurantName} </div><div style="color:black"> ${restaurantSelections[i].rating}</div><div style="color:black">${restaurantSelections[i].foodStyle}</div></div>`);
         }
     }
 

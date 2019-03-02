@@ -35,19 +35,19 @@ html {
 .outerBorder1 {
     width: 70%;
     position: fixed;
-    top: 50%;
+    top: 60%;
     left: 50%;
-    /*margin-top: 60px;*/
+    /* margin-top: 60px; */
     margin-top: -50px;
     margin-left: 0px;
     transform: translate(-50%, -50%);
-    border: 2px solid #0ebfe9;
+    border: 1px solid #0ebfe9;
     border-radius: 5px;
     color: white;
-    padding: 30px 0;
+    padding: 130px 0;
     line-height: 20px;
-    /*background: #00ff83;*/
-    background: #0ebfe9;
+    /* background: #00ff83; */
+    background: #034F75;
     /*max-height: 500px;*/
     /*overflow: auto;*/
 }
@@ -56,8 +56,8 @@ html {
 #exTitle {
     font-size: 30px;
     font-weight: bold;
-    color: #7D26CD;
-    border-bottom: 1px solid gray;
+    color: white;
+    border-bottom: 1px solid white;
     width: 50%;
     height: auto;
     padding: 5px;
@@ -88,15 +88,16 @@ html {
     border: none;
     border-bottom: 2px solid gray;
     background: none;
-    font-size: 20px;
+    font-size: 18px;
     cursor: pointer;
     outline: none;
     font-family: 'Georgia', Times, Times New Roman, serif;
+    color: white;
 }
 
 .message {
-    color: gray;
-    font-size: 80%;
+    color: white;
+    font-size: 20px;
     display: block;
 }
 
@@ -134,18 +135,22 @@ html {
 
 .btn-pri {
     width: auto;
-    height: 50px;
     padding: 5px 10px;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
     color: #ffffff;
-    background-color: #4B0082;
+    background-color: gray;
     font-size: 20px;
     font-family: 'Georgia', Times, Times New Roman, serif;
     cursor: pointer;
     margin: 40px 0 10px 0;
+}
+
+.btn-pri:hover {
+    border: 1px solid white;
+    opacity: .8;
 }
 
 .dispHide {
@@ -286,9 +291,11 @@ button.ui-button {
 }
 
 .landingPgBtn {
-    margin: 15px;
-    height: 50px;
+       margin: 18px;
+    /* height: 40px; */
     width: auto;
+    padding: 90px;
+    font-size: 25px;
 }
 
 #existingPlans {
@@ -305,7 +312,8 @@ button.ui-button {
     border-radius: 4px;
     box-sizing: border-box;
     color: #ffffff;
-    background-color: #4B0082;
+    background-color: #034F75;
+    ;
     font-size: 20px;
     font-family: 'Georgia', Times, Times New Roman, serif;
     cursor: pointer;
@@ -321,13 +329,14 @@ button.ui-button {
     /*margin-top: -50px;*/
     margin-left: 0px;
     transform: translate(-50%, -50%);
-    border: 2px solid #0ebfe9;
+    border: 1px solid #0ebfe9;
     border-radius: 5px;
     color: white;
     padding: 30px 0;
     line-height: 20px;
     /*background: #00ff83;*/
-    background: #0ebfe9;
+    background: #58585B;
+    ;
     max-height: 500px;
     overflow: auto;
 }
@@ -346,6 +355,11 @@ button.ui-button {
     font-family: 'Georgia', Times, Times New Roman, serif;
     cursor: pointer;
     /*margin: 40px 0 10px 0;*/
+}
+
+.delete-event-button:hover {
+    border: 1px solid gray;
+    opacity: .8;
 }
 
 
@@ -369,7 +383,7 @@ button.ui-button {
 .submenus {
     font-size: 15px;
     width: 100%;
-    background-color: #ded5d5;
+    background-color: #034F75;
     line-height: 2;
     border-radius: 2px;
     border: 2px solid gray;
@@ -379,6 +393,8 @@ button.ui-button {
     background-color: #0ebfe9;
     color: black;
     width: 100%;
+    padding: 0px;
+    display: block;
 }
 
 
@@ -657,15 +673,20 @@ button.ui-button {
 }
 
 .addAll-plan-btn {
-    background: gray;
+    background: #034F75;
     color: white;
-    padding: 10px;
+    padding: 15px;
     border-radius: 6px;
     cursor: pointer;
     display: block;
     width: 25%;
     margin: auto;
     margin-top: 15px;
+}
+
+.addAll-plan-btn:hover {
+    border: 1px solid white;
+    opacity: .8;
 }
 
 #brewery-selection {
@@ -721,6 +742,7 @@ button.ui-button {
     height: 40px;
     font-size: 20px;
     border-radius: 10px 10px 0px 0px;
+    color: black;
 }
 
 .city-name-header-div {
@@ -765,6 +787,7 @@ button.ui-button {
     height: 25px;
     padding-top: 7px;
     border-radius: 5px 5px 0px 0px;
+    color: black;
 }
 
 .result-ticket-data,
@@ -772,6 +795,7 @@ button.ui-button {
 .result-weather-data {
     display: block;
     padding: 5px;
+    color: black;
 }
 
 .result-footer-button-container {
